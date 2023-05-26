@@ -35,7 +35,7 @@ public class UserDao {
         return user;
     }
 
-    public User getSecurityQuestion(String email) {
+    public static User getSecurityQuestion(String email) {
         User user = null;
         try {
             ResultSet rs = DbOperations.getData("SELECT * FROM [user] WHERE  email = '" + email + "'");

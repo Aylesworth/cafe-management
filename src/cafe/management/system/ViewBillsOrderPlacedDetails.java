@@ -177,7 +177,7 @@ public class ViewBillsOrderPlacedDetails extends javax.swing.JFrame {
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         int index = jTable1.getSelectedRow();
         TableModel model = jTable1.getModel();
-        String id = model.getValueAt(index, 0).toString();
+        int id = (Integer) model.getValueAt(index, 0);
         OpenPdf.openById(id);        // TODO add your handling code here:
     }//GEN-LAST:event_jTable1MouseClicked
 

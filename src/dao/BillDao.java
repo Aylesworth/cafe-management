@@ -5,6 +5,7 @@
 package dao;
 
 import java.sql.ResultSet;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import model.Bill;
@@ -52,8 +53,8 @@ public class BillDao {
                 bill.setName(rs.getString("name"));
                 bill.setMobileNumber(rs.getString("mobileNumber"));
                 bill.setEmail(rs.getString("email"));
-                bill.setDate(rs.getString("date"));
-                bill.setTotal(rs.getString("total"));
+                bill.setDate(LocalDate.parse(rs.getString("date")));
+                bill.setTotal(Double.parseDouble(rs.getString("total")));
                 bill.setCreatedBy(rs.getString("createdBy"));
                 arrayList.add(bill);
             }
@@ -74,8 +75,8 @@ public class BillDao {
                 bill.setName(rs.getString("name"));
                 bill.setMobileNumber(rs.getString("mobileNumber"));
                 bill.setEmail(rs.getString("email"));
-                bill.setDate(rs.getString("date"));
-                bill.setTotal(rs.getString("total"));
+                bill.setDate(LocalDate.parse(rs.getString("date")));
+                bill.setTotal(Double.parseDouble(rs.getString("total")));
                 bill.setCreatedBy(rs.getString("createdBy"));
                 arrayList.add(bill);
             }

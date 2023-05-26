@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
  */
 public class OpenPdf {
 
-    public static void openById(String id) {
+    public static void openById(int id) {
         try {
             if (new File("D:\\bill_no_" + id + ".pdf").exists()) {
                 Process p = Runtime.getRuntime()
