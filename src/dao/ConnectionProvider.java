@@ -4,7 +4,10 @@
  */
 package dao;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 import javax.swing.JOptionPane;
 
 /**
@@ -19,11 +22,10 @@ public class ConnectionProvider {
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			Connection con = DriverManager.getConnection(url, user, password);
-//                        System.out.println(con);
-                        return con;
+			return con;
 		} catch (ClassNotFoundException | SQLException e) {
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
 			return null;
 		}
 

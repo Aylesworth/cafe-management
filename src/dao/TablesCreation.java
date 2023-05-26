@@ -2,7 +2,7 @@ package dao;
 
 import javax.swing.JOptionPane;
 
-public class tables {
+public class TablesCreation {
 
     public static void main(String[] args) {
         try {
@@ -27,7 +27,7 @@ public class tables {
 //                        DbOperations.setDataOrDelete(adminDetails, " Add admin details successfully");
 //                        DbOperations.setDataOrDelete(categoryTable, " Category Table Created successfully");
 //                        DbOperations.setDataOrDelete(productTable, " Product Table Created successfully");
-            DbOperations.setDataOrDelete(billTable, "Bill table created successfully");
+            DbOperations.updateData(billTable, "Bill table created successfully");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
             e.printStackTrace();

@@ -7,7 +7,9 @@ package dao;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JOptionPane;
+
 import model.Product;
 
 /**
@@ -16,91 +18,99 @@ import model.Product;
  */
 public class ProductDao {
 
-    public static void save(Product product) {
-        String query = "insert into product(name,category,price) values('" + product.getName() + "','" + product.getCategory() + "'," + product.getPrice() + ")";
-        DbOperations.setDataOrDelete(query, "Product Added Successfully");
-    }
+	public static void save(Product product) {
+		String query = "INSERT INTO product (name, category, price) VALUES (?, ?, ?)";
+		Object[] args = { product.getName(), product.getCategory(), product.getPrice() };
 
-    public static List<Product> getAll() {
-        List<Product> products = new ArrayList<>();
-        try {
-            ResultSet rs = DbOperations.getData("SELECT * FROM product");
-            while (rs.next()) {
-                Product product = new Product();
-                product.setId(rs.getInt("id"));
-                product.setName(rs.getString("name"));
-                product.setCategory(rs.getString("category"));
-                product.setPrice(rs.getDouble("price"));
-                products.add(product);
-            }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex);
-        }
-        return products;
-    }
+		DbOperations.updateData(query, args, "Product added successfully");
+	}
 
-    public static void update(Product product) {
-        String query = String.format(
-                "UPDATE product SET name = '%s', "
-                + "category = '%s', "
-                + "price = '%f' "
-                + "WHERE id = '%d'",
-                product.getName(),
-                product.getCategory(),
-                product.getPrice(),
-                product.getId());
+	public static List<Product> getAll() {
+		List<Product> products = new ArrayList<>();
+		try {
+			ResultSet rs = DbOperations.getData("SELECT * FROM product");
+			while (rs.next()) {
+				Product product = new Product();
+				product.setId(rs.getInt("id"));
+				product.setName(rs.getString("name"));
+				product.setCategory(rs.getString("category"));
+				product.setPrice(rs.getDouble("price"));
+				products.add(product);
+			}
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(null, ex);
+		}
+		return products;
+	}
 
-        DbOperations.setDataOrDelete(query, "Product updated successfully!");
-    }
+	public static void update(Product product) {
+		String query = "UPDATE product SET name = ?, category = ?, price = ? WHERE id = ?";
+		Object[] args = { product.getName(), product.getCategory(), product.getPrice(), product.getId() };
 
-    public static void delete(int id) {
-        String query = "DELETE FROM product WHERE id = '" + id + "'";
+		DbOperations.updateData(query, args, "Product updated successfully!");
+	}
 
-        DbOperations.setDataOrDelete(query, "Product deleted successfully!");
-    }
+	public static void delete(int id) {
+		String query = "DELETE FROM product WHERE id = ?";
+		Object[] args = { id };
 
-    public static List<Product> filterByCategory(String category) {
-        List<Product> products = new ArrayList<>();
-        try {
-            ResultSet rs = DbOperations.getData("SELECT * FROM product WHERE category = '%s'".formatted(category));
-            while (rs.next()) {
-                Product product = new Product();
-                product.setName(rs.getString("name"));
-                products.add(product);
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
-        return products;
-    }
+		DbOperations.updateData(query, args, "Product deleted successfully!");
+	}
 
-    public static List<Product> filterByName(String name, String category) {
-        List<Product> products = new ArrayList<>();
-        try {
-            ResultSet rs = DbOperations.getData("SELECT * FROM product WHERE name LIKE '%%%s%%' AND category = '%s'".formatted(name, category));
-            while (rs.next()) {
-                Product product = new Product();
-                product.setName(rs.getString("name"));
-                products.add(product);
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
-        return products;
-    }
+	public static List<Product> filterByCategory(String category) {
+		List<Product> products = new ArrayList<>();
+		try {
+			String query = "SELECT * FROM product WHERE category = ?";
+			Object[] args = { category };
 
-    public static Product getByName(String name) {
-        Product product = new Product();
-        try {
-            ResultSet rs = DbOperations.getData("SELECT * FROM product WHERE name = '%s'".formatted(name));
-            while (rs.next()) {
-                product.setName(rs.getString(2));
-                product.setCategory(rs.getString(3));
-                product.setPrice(rs.getDouble(4));
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
-        return product;
-    }
+			ResultSet rs = DbOperations.getData(query, args);
+
+			while (rs.next()) {
+				Product product = new Product();
+				product.setName(rs.getString("name"));
+				products.add(product);
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
+		return products;
+	}
+
+	public static List<Product> filterByName(String name, String category) {
+		List<Product> products = new ArrayList<>();
+		try {
+			String query = "SELECT * FROM product WHERE name LIKE ? AND category = ?";
+			Object[] args = { "%" + name + "%", category };
+
+			ResultSet rs = DbOperations.getData(query, args);
+
+			while (rs.next()) {
+				Product product = new Product();
+				product.setName(rs.getString("name"));
+				products.add(product);
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
+		return products;
+	}
+
+	public static Product getByName(String name) {
+		Product product = new Product();
+		try {
+			String query = "SELECT * FROM product WHERE name = ?";
+			Object[] args = { name };
+
+			ResultSet rs = DbOperations.getData(query, args);
+
+			while (rs.next()) {
+				product.setName(rs.getString(2));
+				product.setCategory(rs.getString(3));
+				product.setPrice(rs.getDouble(4));
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
+		return product;
+	}
 }

@@ -43,7 +43,7 @@ public class User {
         this.email = email;
     }
 
-    public String getPassWord() {
+    public String getPassword() {
         return passWord;
     }
 

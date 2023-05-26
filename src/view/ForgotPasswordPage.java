@@ -1,5 +1,5 @@
 
-package cafe.management.system;
+package view;
 
 import dao.UserDao;
 import javax.swing.JOptionPane;
@@ -227,7 +227,7 @@ String emailPattern = " ^[a-zA-Z0-9]+[@]+[a-zA-Z0-9]+[.]+[a-zA-Z0-9]+$";
       String newpass = txtNewPassWord.getText();
       if(answer.equals(dbAnswer)){
         
-         UserDao.updatePassWord(email, newpass);
+         UserDao.updatePassword(email, newpass);
          clear();
       }else{
         JOptionPane.showMessageDialog(null, "<html><b style=\"color:red\"> Incorrect Answer </b>  </html>","Message",JOptionPane.ERROR_MESSAGE);

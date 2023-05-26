@@ -1,5 +1,5 @@
 
-package cafe.management.system;
+package view;
 import javax.swing.JOptionPane;
 import model.User;
 import dao.UserDao;
