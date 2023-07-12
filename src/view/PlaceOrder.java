@@ -31,6 +31,8 @@ import model.Product;
  */
 public class PlaceOrder extends javax.swing.JFrame {
 
+    private CategoryDao categoryDao = new CategoryDao();
+    
     private int billId;
     private double grandTotal;
     private double productPrice;
@@ -362,7 +364,7 @@ public class PlaceOrder extends javax.swing.JFrame {
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         billId = BillDao.getNextId();
         lblBillId.setText(String.valueOf(billId));
-        List<Category> categories = CategoryDao.getAllRecords();
+        List<Category> categories = categoryDao.getAllRecords();
         categories.stream().forEach(c -> jComboBox1.addItem(c.getName()));
 
         String category = (String) jComboBox1.getSelectedItem();

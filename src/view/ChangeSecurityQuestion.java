@@ -12,7 +12,8 @@ import model.User;
  * @author Administrator
  */
 public class ChangeSecurityQuestion extends javax.swing.JFrame {
-    public String userEmail;
+    private String userEmail;
+    private UserDao userDao = new UserDao();
     
 
     /**
@@ -159,7 +160,7 @@ public class ChangeSecurityQuestion extends javax.swing.JFrame {
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         // TODO add your handling code here:
-        User user = UserDao.getSecurityQuestion(userEmail);
+        User user = userDao.getSecurityQuestion(userEmail);
         txtOldSQ.setText(user.getSecurityQuestion());
     }//GEN-LAST:event_formComponentShown
 
@@ -179,7 +180,7 @@ public class ChangeSecurityQuestion extends javax.swing.JFrame {
         String password = txtPassword.getText();
         String securityQuestion = txtNewSQ.getText();
         String answer = txtNewAns.getText();
-        UserDao.changeSecurityQuestion(userEmail, password, securityQuestion, answer);
+        userDao.changeSecurityQuestion(userEmail, password, securityQuestion, answer);
         setVisible(false);
         new ChangeSecurityQuestion(userEmail).setVisible(true);
     }//GEN-LAST:event_btnUpdateActionPerformed

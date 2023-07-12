@@ -4,28 +4,44 @@ import javax.swing.JOptionPane;
 
 public class TablesCreation {
     
+    private static final String dropTables =
+            """
+            DROP TABLE IF EXISTS VoucherUsage;
+            DROP TABLE IF EXISTS Voucher;
+            DROP TABLE IF EXISTS OrderDetails;
+            DROP TABLE IF EXISTS [Order];
+            DROP TABLE IF EXISTS DeliveryInfo;
+            DROP TABLE IF EXISTS PaymentInfo;
+            DROP TABLE IF EXISTS PaymentMethod;
+            DROP TABLE IF EXISTS Staff;
+            DROP TABLE IF EXISTS Product;
+            DROP TABLE IF EXISTS Category;
+            DROP TABLE IF EXISTS [User];
+            """;
+    
     private static final String userTable = 
             """
-            DROP TABLE IF EXISTS [User];
             CREATE TABLE [User] (
                 Id INT PRIMARY KEY IDENTITY(1,1),
                 Email VARCHAR(100) UNIQUE NOT NULL,
                 Password VARCHAR(100) NOT NULL,
                 FullName VARCHAR(100) NOT NULL,
-                Sex BIT NOT NULL,
+                Sex VARCHAR(10) NOT NULL,
                 BirthDate DATE,
                 PhoneNumber VARCHAR(12),
                 SecurityQuestion VARCHAR(200) NOT NULL,
                 Answer VARCHAR(200) NOT NULL,
-                CreatedAt TIMESTAMP,
+                CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+                IsApproved BIT DEFAULT 0,
                 Point INT DEFAULT 0,
                 Rank VARCHAR(20) DEFAULT 'Regular'
             );
+            INSERT INTO [User] (Email, Password, FullName, Sex, BirthDate, PhoneNumber, SecurityQuestion, Answer, IsApproved)
+            VALUES ('admin', 'admin', 'Admin', 'Null', '1900-01-01', '0123456789', 'Why is dark humor like food?', 'Because not everybody gets it', 1);
             """;
     
     private static final String deliveryInfoTable = 
             """
-            DROP TABLE IF EXISTS DeliveryInfo;
             CREATE TABLE DeliveryInfo (
                 Id INT PRIMARY KEY IDENTITY(1,1),
                 UserId INT NOT NULL,
@@ -38,7 +54,6 @@ public class TablesCreation {
     
     private static final String paymentInfoTable =
             """
-            DROP TABLE IF EXISTS PaymentInfo;
             CREATE TABLE PaymentInfo (
                 Id INT PRIMARY KEY IDENTITY(1,1),
                 UserId INT NOT NULL,
@@ -58,7 +73,6 @@ public class TablesCreation {
     
     private static final String paymentMethodTable =
             """
-            DROP TABLE IF EXISTS PaymentMethod;
             CREATE TABLE PaymentMethod (
                 Id INT PRIMARY KEY,
                 Name VARCHAR(50)
@@ -69,7 +83,6 @@ public class TablesCreation {
     
     private static final String categoryTable =
             """
-            DROP TABLE IF EXISTS Category;
             CREATE TABLE Category (
                 Id INT PRIMARY KEY IDENTITY(1,1),
                 Name VARCHAR(50) NOT NULL
@@ -78,7 +91,6 @@ public class TablesCreation {
     
     private static final String productTable =
             """
-            DROP TABLE IF EXISTS Product;
             CREATE TABLE Product (
                 Id INT PRIMARY KEY IDENTITY(1,1),
                 Name VARCHAR(50) NOT NULL,
@@ -91,7 +103,6 @@ public class TablesCreation {
     
     private static final String orderTable =
             """
-            DROP TABLE IF EXISTS [Order];
             CREATE TABLE [Order] (
                 Id INT PRIMARY KEY IDENTITY(1,1),
                 UserId INT NOT NULL,
@@ -100,7 +111,7 @@ public class TablesCreation {
                 PaymentMethod INT NOT NULL,
                 PaymentInfoId INT,
                 DeliveryPersonId INT,
-                DeliveredAt TIMESTAMP,
+                DeliveredAt DATETIME,
                 FOREIGN KEY (UserId) REFERENCES [User](Id),
                 FOREIGN KEY (DeliveryInfoId) REFERENCES DeliveryInfo(Id),
                 FOREIGN KEY (PaymentMethod) REFERENCES PaymentMethod(Id),
@@ -111,7 +122,6 @@ public class TablesCreation {
     
     private static final String orderDetailsTable = 
             """
-            DROP TABLE IF EXISTS OrderDetails;
             CREATE TABLE OrderDetails (
                 Id INT PRIMARY KEY IDENTITY(1,1),
                 OrderId INT NOT NULL,
@@ -126,11 +136,10 @@ public class TablesCreation {
     
     private static final String staffTable = 
             """
-            DROP TABLE IF EXISTS Staff;
             CREATE TABLE Staff (
                 Id INT PRIMARY KEY IDENTITY(1,1),
                 FullName VARCHAR(100) NOT NULL,
-                Sex BIT NOT NULL,
+                Sex VARCHAR(10) NOT NULL,
                 BirthDate DATE NOT NULL,
                 Position VARCHAR(20),
                 StartWorkingFrom DATE,
@@ -140,7 +149,6 @@ public class TablesCreation {
     
     private static final String voucherTable =
             """
-            DROP TABLE IF EXISTS Voucher;
             CREATE TABLE Voucher (
                 Id INT PRIMARY KEY IDENTITY(1,1),
                 Name VARCHAR(100) NOT NULL,
@@ -153,7 +161,6 @@ public class TablesCreation {
     
     private static final String voucherUsageTable =
             """
-            DROP TABLE IF EXISTS VoucherUsage;
             CREATE TABLE VoucherUsage (
                 Id INT PRIMARY KEY IDENTITY(1,1),
                 VoucherId INT NOT NULL,
@@ -190,17 +197,18 @@ public class TablesCreation {
 //                        DbOperations.updateData(productTable, " Product Table Created successfully");
 //            DbOperations.updateData(billTable, "Bill table created successfully");
 
-//            DbOperations.updateData(userTable, "User table created successfully");
-//            DbOperations.updateData(staffTable, "Staff table created successfully");
-//            DbOperations.updateData(categoryTable, "Category table created successfully");
-//            DbOperations.updateData(productTable, "Product table created successfully");
-//            DbOperations.updateData(deliveryInfoTable, "Delivery info table created successfully");
-//            DbOperations.updateData(paymentMethodTable, "Payment method table created successfully");
-//            DbOperations.updateData(paymentInfoTable, "Payment info table created successfully");
-//            DbOperations.updateData(orderTable, "Order table created successfully");
-//            DbOperations.updateData(orderDetailsTable, "Order details table created successfully");
-//            DbOperations.updateData(voucherTable, "Voucher table created successfully");
-//            DbOperations.updateData(voucherUsageTable, "Voucher usage table created successfully");
+            DbOperations.updateData(dropTables, "Tables dropped successfully");
+            DbOperations.updateData(userTable, "User table created successfully");
+            DbOperations.updateData(staffTable, "Staff table created successfully");
+            DbOperations.updateData(categoryTable, "Category table created successfully");
+            DbOperations.updateData(productTable, "Product table created successfully");
+            DbOperations.updateData(deliveryInfoTable, "Delivery info table created successfully");
+            DbOperations.updateData(paymentMethodTable, "Payment method table created successfully");
+            DbOperations.updateData(paymentInfoTable, "Payment info table created successfully");
+            DbOperations.updateData(orderTable, "Order table created successfully");
+            DbOperations.updateData(orderDetailsTable, "Order details table created successfully");
+            DbOperations.updateData(voucherTable, "Voucher table created successfully");
+            DbOperations.updateData(voucherUsageTable, "Voucher usage table created successfully");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
             e.printStackTrace();

@@ -4,91 +4,52 @@
  */
 package model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import lombok.Data;
+
 /**
  *
  * @author Dungpc
  */
+@Data
 public class User {
+
     private int id;
-    private String name;
     private String email;
-    private String passWord;
-    private String mobileNumber;
-    private String address;
+    private String password;
+    private String fullName;
+    private String sex;
+    private LocalDate birthDate;
+    private String phoneNumber;
     private String securityQuestion;
     private String answer;
-    private String status;
+    private LocalDateTime createdAt;
+    private boolean isApproved;
+    private int point;
+    private String rank;
 
-    public int getId() {
-        return id;
+    public static User map(ResultSet rs) {
+        User user = new User();
+        try {
+            user.setId(rs.getInt("Id"));
+            user.setEmail(rs.getString("Email"));
+            user.setFullName(rs.getString("FullName"));
+            user.setSex(rs.getString("Sex"));
+            user.setBirthDate(rs.getDate("BirthDate").toLocalDate());
+            user.setPhoneNumber(rs.getString("PhoneNumber"));
+            user.setSecurityQuestion(rs.getString("SecurityQuestion"));
+            user.setAnswer(rs.getString("Answer"));
+            user.setCreatedAt(rs.getTimestamp("CreatedAt").toLocalDateTime());
+            user.setApproved(rs.getBoolean("IsApproved"));
+            user.setPoint(rs.getInt("Point"));
+            user.setRank(rs.getString("Rank"));
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return user;
     }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return passWord;
-    }
-
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
-    }
-
-    public String getMobileNumber() {
-        return mobileNumber;
-    }
-
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getSecurityQuestion() {
-        return securityQuestion;
-    }
-
-    public void setSecurityQuestion(String securityQuestion) {
-        this.securityQuestion = securityQuestion;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-    
 }

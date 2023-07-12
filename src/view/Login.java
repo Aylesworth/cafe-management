@@ -8,38 +8,39 @@ import dao.UserDao;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import model.User;
+
 /**
  *
  * @author Dungpc
  */
 public class Login extends javax.swing.JFrame {
 
+    private UserDao userdao = new UserDao();
     public String emailPattern = " ^[a-zA-Z0-9]+[@]+[a-zA-Z0-9]+[.]+[a-zA-Z0-9]+$";
+
     public Login() {
         initComponents();
         btnLogin.setEnabled(false);
     }
-    public void Clear(){
-    txtEmail.setText("");
-    txtPassword.setText("");
-    btnLogin.setEnabled(false);
+
+    public void clear() {
+        txtEmail.setText("");
+        txtPassword.setText("");
+        btnLogin.setEnabled(false);
     }
-  public void ValidField(){
-    String email = txtEmail.getText();
-    String password = txtPassword.getText();
-    if(email.matches(emailPattern)&& !password.equals("")){
-    btnLogin.setEnabled(true);
-    }else{
-    btnLogin.setEnabled(true);
-    
-    
+
+    public void validateFields() {
+        String email = txtEmail.getText();
+        String password = txtPassword.getText();
+        if (email.matches(emailPattern) && !password.equals("")) {
+            btnLogin.setEnabled(true);
+        } else {
+            btnLogin.setEnabled(true);
+
+        }
+
     }
-            
-  
-  
-  
-  }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -58,7 +59,6 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1366, 768));
-        setUndecorated(true);
         setPreferredSize(new java.awt.Dimension(1366, 768));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -148,38 +148,34 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-       String email = txtEmail.getText();
-       String password = txtPassword.getText();
-       User user = null;
-       UserDao userdao = new UserDao();
-       user = userdao.login(email,password);
-       if(user== null){
-       JOptionPane.showMessageDialog(null, "<html><b style=\"color:red\"> Incorrect Email or PassWord  </b>  </html>","Message",JOptionPane.ERROR_MESSAGE);         
-       }
-       else{
-           if(user.getStatus().equals("false")){
-           ImageIcon icon = new ImageIcon("src/popupicon/wait.png");
-           JOptionPane.showMessageDialog(null, "<html> <b>Wait for Admin Approval </b></html>","Message",JOptionPane.INFORMATION_MESSAGE,icon);
-           Clear();                               
-           }
-           if(user.getStatus().equals("true")){
-               setVisible(false);
-               new Home(email).setVisible(true);
-           
-           }
-       }
-       
+        String email = txtEmail.getText();
+        String password = txtPassword.getText();
+        User user = null;
+        user = userdao.login(email, password);
+        if (user == null) {
+            JOptionPane.showMessageDialog(null, "<html><b style=\"color:red\"> Incorrect Email or PassWord  </b>  </html>", "Message", JOptionPane.ERROR_MESSAGE);
+        } else {
+            if (!user.isApproved()) {
+                ImageIcon icon = new ImageIcon("src/popupicon/wait.png");
+                JOptionPane.showMessageDialog(null, "<html> <b>Wait for Admin Approval </b></html>", "Message", JOptionPane.INFORMATION_MESSAGE, icon);
+                clear();
+            } else {
+                setVisible(false);
+                new Home(email).setVisible(true);
+            }
+        }
+
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-       int a = JOptionPane.showConfirmDialog(null,"Do you want to close Application","Select",JOptionPane.YES_NO_OPTION);
-       if(a==0){
-           System.exit(0);
-       }
+        int a = JOptionPane.showConfirmDialog(null, "Do you want to close Application", "Select", JOptionPane.YES_NO_OPTION);
+        if (a == 0) {
+            System.exit(0);
+        }
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-      Clear();
+        clear();
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnForgotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForgotActionPerformed
@@ -193,11 +189,11 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSignupActionPerformed
 
     private void txtEmailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailKeyReleased
-      ValidField();
+        validateFields();
     }//GEN-LAST:event_txtEmailKeyReleased
 
     private void txtPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyReleased
-      ValidField();
+        validateFields();
     }//GEN-LAST:event_txtPasswordKeyReleased
 
     /**

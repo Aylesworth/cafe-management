@@ -189,16 +189,16 @@ public class Signup extends javax.swing.JFrame {
         // TODO add your handling code here:
     	
     	User user = new User();
-    	user.setName(txtName.getText());
-    	user.setEmail(txtEmail.getText());
-    	user.setMobileNumber(txtMobileNumber.getText());
-    	user.setAddress(txtAddress.getText());
-    	user.setPassWord(txtPassword.getText());
-    	user.setSecurityQuestion(txtSecurityquestion.getText());
-    	user.setAnswer(txtAnswer.getText());
+//    	user.setName(txtName.getText());
+//    	user.setEmail(txtEmail.getText());
+//    	user.setMobileNumber(txtMobileNumber.getText());
+//    	user.setAddress(txtAddress.getText());
+//    	user.setPassWord(txtPassword.getText());
+//    	user.setSecurityQuestion(txtSecurityquestion.getText());
+//    	user.setAnswer(txtAnswer.getText());
     	
     	UserDao userDao = new UserDao();
-		userDao.save(user);
+		userDao.create(user);
     	//clear()
     }//GEN-LAST:event_txtNameActionPerformed
 

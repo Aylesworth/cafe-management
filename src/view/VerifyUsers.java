@@ -16,6 +16,8 @@ import model.User;
  * @author Admin
  */
 public class VerifyUsers extends javax.swing.JFrame {
+    
+    private UserDao userDao = new UserDao();
 
     /**
      * Creates new form VerifyUsers
@@ -27,17 +29,17 @@ public class VerifyUsers extends javax.swing.JFrame {
     public void getAllRecords(String email) {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
-        List<User> users = UserDao.getAll(email);
+        List<User> users = userDao.getAll(email);
         users.stream()
-                .filter(u -> !u.getEmail().equals("admin@gmail.com"))
+                .filter(u -> !u.getEmail().equals("admin"))
                 .forEach(u -> model.addRow(new Object[]{
             u.getId(),
-            u.getName(),
+            u.getFullName(),
             u.getEmail(),
-            u.getMobileNumber(),
-            u.getAddress(),
-            u.getSecurityQuestion(),
-            u.getStatus()}));
+            u.getSex(),
+            u.getBirthDate().toString(),
+            u.getPhoneNumber(),
+            u.isApproved() ? "Approved" : "Not approved"}));
     }
 
     /**
@@ -99,7 +101,7 @@ public class VerifyUsers extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Name", "Email", "Mobile Number", "Address", "Security Question", "Status"
+                "ID", "Full Name", "Email", "Sex", "Birth Date", "Phone Number", "Status"
             }
         ));
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -139,15 +141,16 @@ public class VerifyUsers extends javax.swing.JFrame {
         TableModel model = jTable1.getModel();
         String email = model.getValueAt(index, 2).toString();
         String status = model.getValueAt(index, 6).toString();
-        if (status.equals("true")) {
-            status = "false";
+        boolean approved;
+        if (status.equals("Approved")) {
+            approved = false;
         } else {
-            status = "true";
+            approved = true;
         }
 
         int ans = JOptionPane.showConfirmDialog(null, "Do you really want to change status of " + email + "?", "Select", JOptionPane.YES_NO_OPTION);
         if (ans == 0) {
-            UserDao.changeStatus(email, status);
+            userDao.changeApproved(email, approved);
             setVisible(false);
             new VerifyUsers().setVisible(true);
         }

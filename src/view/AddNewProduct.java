@@ -14,6 +14,8 @@ import dao.ProductDao;
  * @author Hasagi
  */
 public class AddNewProduct extends javax.swing.JFrame {
+    
+    private CategoryDao categoryDao = new CategoryDao();
 
     /**
      * Creates new form AddNewProduct
@@ -159,12 +161,7 @@ public class AddNewProduct extends javax.swing.JFrame {
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         // TODO add your handling code here:
-        ArrayList<Category> list = CategoryDao.getAllRecords();
-        Iterator <Category> itr = list.iterator();
-        while(itr.hasNext()){
-            Category categoryObj = itr.next();
-            txtCategory.addItem(categoryObj.getName());
-        }
+        categoryDao.getAllRecords().forEach(category -> txtCategory.addItem(category.getName()));
     }//GEN-LAST:event_formComponentShown
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed

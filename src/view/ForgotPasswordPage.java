@@ -1,4 +1,3 @@
-
 package view;
 
 import dao.UserDao;
@@ -8,34 +7,41 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class ForgotPasswordPage extends javax.swing.JFrame {
-String email = null;
-String dbAnswer = null;
-String emailPattern = " ^[a-zA-Z0-9]+[@]+[a-zA-Z0-9]+[.]+[a-zA-Z0-9]+$";
+    
+    private UserDao userDao = new UserDao();
+
+    private String email = null;
+    private String dbAnswer = null;
+    private String emailPattern = " ^[a-zA-Z0-9]+[@]+[a-zA-Z0-9]+[.]+[a-zA-Z0-9]+$";
+
     public ForgotPasswordPage() {
         initComponents();
         btnUpdate.setEnabled(false);
         btnSearch.setEnabled(false);
         txtSecurityQuestion.setEditable(false);
     }
-    public void clear(){
-    btnUpdate.setEnabled(false);
-    btnSearch.setEnabled(false);
-    txtEmail.setEditable(true);
-    txtEmail.setText("");
-    txtSecurityQuestion.setText("");
-    txtAnswer.setText("");
-    txtNewPassWord.setText("");           
+
+    public void clear() {
+        btnUpdate.setEnabled(false);
+        btnSearch.setEnabled(false);
+        txtEmail.setEditable(true);
+        txtEmail.setText("");
+        txtSecurityQuestion.setText("");
+        txtAnswer.setText("");
+        txtNewPassWord.setText("");
     }
+
     public void validEmail() {
         email = txtEmail.getText();
         if (email.matches(emailPattern)) {
             btnSearch.setEnabled(true);
-            
+
         } else {
             btnSearch.setEnabled(true);
         }
-        
+
     }
+
     public void validField() {
         String pass = txtNewPassWord.getText();
         String answer = txtAnswer.getText();
@@ -45,9 +51,9 @@ String emailPattern = " ^[a-zA-Z0-9]+[@]+[a-zA-Z0-9]+[.]+[a-zA-Z0-9]+$";
         } else {
             btnUpdate.setEnabled(false);
         }
-        
+
     }
-   
+
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
@@ -62,18 +68,18 @@ String emailPattern = " ^[a-zA-Z0-9]+[@]+[a-zA-Z0-9]+[.]+[a-zA-Z0-9]+$";
         btnUpdate = new javax.swing.JButton();
         btnSignup = new javax.swing.JButton();
         btnSignup.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		setVisible(false);
-        		new Signup().setVisible(true);
-        	}
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                new Signup().setVisible(true);
+            }
         });
         btnExit = new javax.swing.JButton();
         btnLogin = new javax.swing.JButton();
         btnLogin.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		setVisible(false);
-        		new Login().setVisible(true);
-        	}
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                new Login().setVisible(true);
+            }
         });
         btnClear = new javax.swing.JButton();
         btnSearch = new javax.swing.JButton();
@@ -192,7 +198,7 @@ String emailPattern = " ^[a-zA-Z0-9]+[@]+[a-zA-Z0-9]+[.]+[a-zA-Z0-9]+$";
         getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 1360, 850));
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
     private void txtEmailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailKeyReleased
         validEmail();
@@ -207,53 +213,51 @@ String emailPattern = " ^[a-zA-Z0-9]+[@]+[a-zA-Z0-9]+[.]+[a-zA-Z0-9]+$";
     }//GEN-LAST:event_txtAnswerKeyReleased
 
     private void txtNewPassWordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNewPassWordKeyReleased
-       validField();
+        validField();
     }//GEN-LAST:event_txtNewPassWordKeyReleased
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-       int a = JOptionPane.showConfirmDialog(null,"Do you want to close Application","Select",JOptionPane.YES_NO_OPTION);
-       if(a==0){
-           System.exit(0);
-       }
+        int a = JOptionPane.showConfirmDialog(null, "Do you want to close Application", "Select", JOptionPane.YES_NO_OPTION);
+        if (a == 0) {
+            System.exit(0);
+        }
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-      clear();
+        clear();
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {
-        
-      String answer = txtAnswer.getText();
-      String newpass = txtNewPassWord.getText();
-      if(answer.equals(dbAnswer)){
-        
-         UserDao.updatePassword(email, newpass);
-         clear();
-      }else{
-        JOptionPane.showMessageDialog(null, "<html><b style=\"color:red\"> Incorrect Answer </b>  </html>","Message",JOptionPane.ERROR_MESSAGE);
-      
-      }
-    }//GEN-LAST:event_btnUpdateActionPerformed
 
-    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-      User user = null;
-      email = txtEmail.getText();
-      UserDao userdao = new UserDao();
-      user = userdao.getSecurityQuestion(email);
-      if(user == null){
-      JOptionPane.showMessageDialog(null, "<html><b style=\"color:red\"> Incorrect Email </b>  </html>","Message",JOptionPane.ERROR_MESSAGE);      
-      }else{
-      //btnSearch.setEnabled(false);
-      //txtEmail.setEditable(false);
-      dbAnswer = user.getAnswer();
-      txtSecurityQuestion.setText(user.getSecurityQuestion());
-     // validField();
-      }
+        String answer = txtAnswer.getText();
+        String newpass = txtNewPassWord.getText();
+        if (answer.equals(dbAnswer)) {
+
+            userDao.updatePassword(email, newpass);
+            clear();
+        } else {
+            JOptionPane.showMessageDialog(null, "<html><b style=\"color:red\"> Incorrect Answer </b>  </html>", "Message", JOptionPane.ERROR_MESSAGE);
+
+        }
     }
 
-    
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {
+        User user = null;
+        email = txtEmail.getText();
+        user = userDao.getSecurityQuestion(email);
+        if (user == null) {
+            JOptionPane.showMessageDialog(null, "<html><b style=\"color:red\"> Incorrect Email </b>  </html>", "Message", JOptionPane.ERROR_MESSAGE);
+        } else {
+            //btnSearch.setEnabled(false);
+            //txtEmail.setEditable(false);
+            dbAnswer = user.getAnswer();
+            txtSecurityQuestion.setText(user.getSecurityQuestion());
+            // validField();
+        }
+    }
+
     public static void main(String args[]) {
-        
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -270,7 +274,7 @@ String emailPattern = " ^[a-zA-Z0-9]+[@]+[a-zA-Z0-9]+[.]+[a-zA-Z0-9]+$";
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(ForgotPasswordPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-       
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new ForgotPasswordPage().setVisible(true);
@@ -293,5 +297,5 @@ String emailPattern = " ^[a-zA-Z0-9]+[@]+[a-zA-Z0-9]+[.]+[a-zA-Z0-9]+$";
     private javax.swing.JTextField txtEmail;
     private javax.swing.JPasswordField txtNewPassWord;
     private javax.swing.JTextField txtSecurityQuestion;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
 }

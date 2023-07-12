@@ -11,7 +11,8 @@ import dao.UserDao;
  * @author Administrator
  */
 public class ChangePassword extends javax.swing.JFrame {
-    public String userEmail;
+    private String userEmail;
+    private UserDao userDao = new UserDao();
     /**
      * Creates new form ChangePassword
      */
@@ -167,7 +168,7 @@ public class ChangePassword extends javax.swing.JFrame {
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         String oldPassword = txtOldPassword.getText();        // TODO add your handling code here:
         String newPassword = txtNewPassword.getText();
-        UserDao.changePassword(userEmail, oldPassword, newPassword);
+        userDao.changePassword(userEmail, oldPassword, newPassword);
         setVisible(false);
         new ChangePassword(userEmail).setVisible(true);
     }//GEN-LAST:event_btnUpdateActionPerformed

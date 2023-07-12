@@ -6,6 +6,7 @@ package dao;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -17,30 +18,30 @@ import model.Category;
  */
 public class CategoryDao {
 
-	public static void save(Category category) {
-		String query = "INSERT INTO category (name) VALUES(?)";
+	public void save(Category category) {
+		String query = "INSERT INTO Category (Name) VALUES(?)";
 		Object[] args = { category.getName() };
 		DbOperations.updateData(query, args, "Category added successfully!");
 	}
 
-	public static ArrayList<Category> getAllRecords() {
-		ArrayList<Category> arrayList = new ArrayList<>();
+	public List<Category> getAllRecords() {
+		List<Category> categories = new ArrayList<>();
 		try {
-			ResultSet rs = DbOperations.getData("SELECT * FROM category");
+			ResultSet rs = DbOperations.getData("SELECT * FROM Category");
 			while (rs.next()) {
 				Category category = new Category();
-				category.setId(rs.getInt("id"));
-				category.setName(rs.getString("name"));
-				arrayList.add(category);
+				category.setId(rs.getInt("Id"));
+				category.setName(rs.getString("Name"));
+				categories.add(category);
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e);
 		}
-		return arrayList;
+		return categories;
 	}
 
-	public static void delete(String id) {
-		String query = "DELETE FROM category WHERE id = ?";
+	public void delete(String id) {
+		String query = "DELETE FROM Category WHERE Id = ?";
 		Object[] args = { id };
 		DbOperations.updateData(query, args, "Category deleted successfully!");
 	}

@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
+
 import model.Category;
 import dao.CategoryDao;
 import javax.swing.table.DefaultTableModel;
@@ -10,11 +11,14 @@ import java.util.ArrayList;
 import java.util.*;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
+
 /**
  *
  * @author Hasagi
  */
 public class ManageCategory extends javax.swing.JFrame {
+
+    private CategoryDao categoryDao = new CategoryDao();
 
     /**
      * Creates new form ManageCategory
@@ -22,16 +26,18 @@ public class ManageCategory extends javax.swing.JFrame {
     public ManageCategory() {
         initComponents();
         btnSave.setEnabled(false);
-        
+
     }
-    
-    public void validateField(){
+
+    public void validateField() {
         String category = txtName.getText();
-        if(!category.equals(""))
+        if (!category.equals("")) {
             btnSave.setEnabled(true);
-        else
+        } else {
             btnSave.setEnabled(false);
+        }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -153,7 +159,7 @@ public class ManageCategory extends javax.swing.JFrame {
         // TODO add your handling code here:
         Category category = new Category();
         category.setName(txtName.getText());
-        CategoryDao.save(category);
+        categoryDao.save(category);
         setVisible(false);
         new ManageCategory().setVisible(true);
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -161,12 +167,7 @@ public class ManageCategory extends javax.swing.JFrame {
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         // TODO add your handling code here:
         DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
-        ArrayList<Category> list = CategoryDao.getAllRecords();
-        Iterator<Category> itr = list.iterator();
-        while(itr.hasNext()){
-            Category categoryObj = itr.next();
-            dtm.addRow(new Object[]{categoryObj.getId(),categoryObj.getName()});
-        }
+        categoryDao.getAllRecords().forEach(category -> dtm.addRow(new Object[]{category.getId(), category.getName()}));
     }//GEN-LAST:event_formComponentShown
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -175,9 +176,9 @@ public class ManageCategory extends javax.swing.JFrame {
         TableModel model = jTable1.getModel();
         String id = model.getValueAt(index, 0).toString();
         String name = model.getValueAt(index, 1).toString();
-        int a = JOptionPane.showConfirmDialog(null,"Do you want to Delete"+name+"Category","Select",JOptionPane.YES_NO_OPTION);
-        if (a==0){
-            CategoryDao.delete(id);
+        int a = JOptionPane.showConfirmDialog(null, "Do you want to Delete" + name + "Category", "Select", JOptionPane.YES_NO_OPTION);
+        if (a == 0) {
+            categoryDao.delete(id);
             setVisible(false);
             new ManageCategory().setVisible(true);
         }
