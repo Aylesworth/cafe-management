@@ -16,9 +16,9 @@ import javax.swing.JOptionPane;
  */
 public class ConnectionProvider {
 	public static Connection getCon() {
-		String url = "jdbc:sqlserver://database-2.cglnwe68wxsl.ap-southeast-2.rds.amazonaws.com:1433;databaseName=CafeManagement";
-		String user = "admin";
-		String password = "12345678";
+		String url = "jdbc:sqlserver://aylesw-server.database.windows.net:1433;databaseName=database-1";
+		String user = "aylesw";
+		String password = "Ducanh2003@";
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			Connection con = DriverManager.getConnection(url, user, password);
