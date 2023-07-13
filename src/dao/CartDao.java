@@ -16,15 +16,24 @@ import model.User;
  * @author Admin
  */
 public class CartDao {
-    
+
+    private static CartDao cartDao;
+
+    public static CartDao getInstance() {
+        if (cartDao == null) {
+            cartDao = new CartDao();
+        }
+        return cartDao;
+    }
+
     public Cart getCart(int userId) {
         Cart cart = new Cart();
         User user = new UserDao().getById(userId);
         cart.setUser(user);
-        
+
         List<CartItem> items = new ArrayList<>();
         String query = "SELECT * FROM CartItem WHERE UserId = ?";
-        var rs = DbOperations.getData(query, new Object[] {userId});
+        var rs = DbOperations.getData(query, new Object[]{userId});
         try {
             while (rs.next()) {
                 CartItem item = new CartItem();
@@ -40,15 +49,24 @@ public class CartDao {
         cart.setItems(items);
         return cart;
     }
-    
+
     public void saveCart(Cart cart) {
         cart.getItems().stream()
-                .filter(item -> item.getId()==0)
                 .forEach(item -> {
-                    String query = "INSERT INTO CartItem (UserId, ProductId, Quantity) VALUE (?, ?, ?)";
-                    Object[] args = {cart.getUser().getId(), item.getProduct().getId(), item.getQuantity()};
-                    DbOperations.updateData(query, args, "");
+//                    if (item.getId() == 0) {
+                        String query = "INSERT INTO CartItem (UserId, ProductId, Quantity) VALUES (?, ?, ?)";
+                        Object[] args = {cart.getUser().getId(), item.getProduct().getId(), item.getQuantity()};
+                        item.setId(DbOperations.updateData(query, args, ""));
+//                    } else {
+//                        String query = "UPDATE CartItem SET Quantity = ? WHERE Id = ?";
+//                        Object[] args = {item.getQuantity(), item.getId()};
+//                        DbOperations.updateData(query, args, "");
+//                    }
                 });
     }
-    
+
+    public void clearCart(int userId) {
+        DbOperations.updateData("DELETE FROM CartItem WHERE UserId = ?", new Object[]{userId}, "");
+    }
+
 }

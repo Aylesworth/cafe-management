@@ -30,5 +30,5 @@ public class User {
     private boolean isApproved;
     private int point;
     private String rank;
-
+    
 }

@@ -88,6 +88,17 @@ public class TablesCreation {
                 Id INT PRIMARY KEY IDENTITY(1,1),
                 Name VARCHAR(50) NOT NULL
             );
+            INSERT INTO Category (Name)
+            VALUES
+                ('Beverages'),
+                ('Pastries'),
+                ('Sandwiches'),
+                ('Salads'),
+                ('Desserts'),
+                ('Smoothies'),
+                ('Breakfast'),
+                ('Wraps'),
+                ('Soup');
             """;
 
     private static final String productTable
@@ -99,6 +110,58 @@ public class TablesCreation {
                 Price DECIMAL(10,2) NOT NULL,
                 FOREIGN KEY (CategoryId) REFERENCES Category(Id)
             );
+            INSERT INTO Product (Name, Price, CategoryId)
+            VALUES
+                ('Espresso', 2.50, 1),
+                ('Cappuccino', 3.00, 1),
+                ('Latte', 3.50, 1),
+                ('Croissant', 2.00, 2),
+                ('Chocolate Muffin', 2.50, 2),
+                ('Ham and Cheese', 4.50, 3),
+                ('Club Sandwich', 5.50, 3),
+                ('Caesar Salad', 6.00, 4),
+                ('Greek Salad', 5.50, 4),
+                ('Cheesecake', 4.50, 5),
+                ('Apple Pie', 3.50, 5),
+                ('Strawberry Smoothie', 4.00, 6),
+                ('Mango Madness Smoothie', 4.50, 6),
+                ('Pancakes', 5.50, 7),
+                ('Omelette', 6.00, 7),
+                ('Chicken Wrap', 5.50, 8),
+                ('Vegetable Wrap', 4.50, 8),
+                ('Tomato Soup', 3.50, 9),
+                ('Mushroom Soup', 3.00, 9),
+                ('Iced Tea', 2.50, 1),
+                ('Fruit Salad', 4.50, 5),
+                ('Blueberry Muffin', 2.50, 2),
+                ('Tuna Sandwich', 5.50, 3),
+                ('Chicken Caesar Salad', 6.50, 4),
+                ('Brownie', 3.00, 5),
+                ('Banana Smoothie', 4.00, 6),
+                ('Bagel', 2.50, 7),
+                ('Turkey Wrap', 5.50, 8),
+                ('Minestrone Soup', 3.50, 9),
+                ('Frappe', 4.50, 1),
+                ('Donut', 1.50, 2),
+                ('Grilled Cheese Sandwich', 4.00, 3),
+                ('Cobb Salad', 7.00, 4),
+                ('Mango Tango Smoothie', 5.50, 6),
+                ('French Toast', 5.00, 7),
+                ('Veggie Wrap', 4.50, 8),
+                ('Lentil Soup', 3.00, 9),
+                ('Mocha', 3.50, 1),
+                ('Cherry Pie', 4.00, 5),
+                ('Blueberry Smoothie', 4.50, 6),
+                ('Scone', 2.00, 2),
+                ('Roast Beef Sandwich', 6.00, 3),
+                ('Caprese Salad', 5.50, 4),
+                ('Ice Cream Sundae', 5.50, 5),
+                ('Green Smoothie', 4.00, 6),
+                ('Egg Sandwich', 4.50, 7),
+                ('Chicken Caesar Wrap', 6.50, 8),
+                ('Clam Chowder', 4.50, 9),
+                ('Hot Chocolate', 3.00, 1),
+                ('Lemon Tart', 3.50, 5);
             """;
 
     private static final String orderTable

@@ -12,7 +12,9 @@ import lombok.Data;
  */
 @Data
 public class CartItem {
+
     private int id;
     private Product product;
     private int quantity;
+    
 }
