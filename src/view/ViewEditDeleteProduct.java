@@ -19,7 +19,8 @@ import model.Product;
  */
 public class ViewEditDeleteProduct extends javax.swing.JFrame {
 
-    private CategoryDao categoryDao = new CategoryDao();
+    private CategoryDao categoryDao = CategoryDao.getInstance();
+    private ProductDao productDao = ProductDao.getInstance();
 
     /**
      * Creates new form ViewEditDeleteProduct
@@ -197,18 +198,18 @@ public class ViewEditDeleteProduct extends javax.swing.JFrame {
         int id = Integer.parseInt(lblId.getText());
         product.setId(id);
         product.setName(txtName.getText());
-        product.setCategory((String) jComboBox1.getSelectedItem());
+        product.setCategory(categoryDao.getByName((String) jComboBox1.getSelectedItem()));
         product.setPrice(Double.parseDouble(txtPrice.getText()));
-        ProductDao.update(product);
+        productDao.update(product);
         setVisible(false);
         new ViewEditDeleteProduct().setVisible(true);
     }// GEN-LAST:event_btnUpdateActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {// GEN-FIRST:event_formComponentShown
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        List<Product> products = ProductDao.getAll();
+        List<Product> products = productDao.getAll();
         products.stream().forEach(p -> {
-            model.addRow(new Object[]{p.getId(), p.getName(), p.getCategory(), p.getPrice()});
+            model.addRow(new Object[]{p.getId(), p.getName(), p.getCategory().getName(), p.getPrice()});
         });
     }// GEN-LAST:event_formComponentShown
 
@@ -237,7 +238,7 @@ public class ViewEditDeleteProduct extends javax.swing.JFrame {
         int ans = JOptionPane.showConfirmDialog(null, "Do you really want to delete this product?", "Select",
                 JOptionPane.YES_NO_OPTION);
         if (ans == 0) {
-            ProductDao.delete(id);
+            productDao.delete(id);
             setVisible(false);
             new ViewEditDeleteProduct().setVisible(true);
         }

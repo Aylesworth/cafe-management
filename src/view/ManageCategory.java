@@ -176,7 +176,7 @@ public class ManageCategory extends javax.swing.JFrame {
         TableModel model = jTable1.getModel();
         String id = model.getValueAt(index, 0).toString();
         String name = model.getValueAt(index, 1).toString();
-        int a = JOptionPane.showConfirmDialog(null, "Do you want to Delete" + name + "Category", "Select", JOptionPane.YES_NO_OPTION);
+        int a = JOptionPane.showConfirmDialog(null, "Do you want to Delete " + name + " Category", "Select", JOptionPane.YES_NO_OPTION);
         if (a == 0) {
             categoryDao.delete(id);
             setVisible(false);

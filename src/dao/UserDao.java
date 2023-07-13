@@ -1,13 +1,59 @@
 package dao;
 
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import model.User;
 
 public class UserDao {
+
+    private static UserDao userDao;
+
+    public static UserDao getInstance() {
+        if (userDao == null) {
+            userDao = new UserDao();
+        }
+        return userDao;
+    }
+
+    private User map(ResultSet rs) {
+        User user = null;
+        try {
+            user = new User();
+            user.setId(rs.getInt("Id"));
+            user.setEmail(rs.getString("Email"));
+            user.setFullName(rs.getString("FullName"));
+            user.setSex(rs.getString("Sex"));
+            user.setBirthDate(rs.getDate("BirthDate").toLocalDate());
+            user.setPhoneNumber(rs.getString("PhoneNumber"));
+            user.setSecurityQuestion(rs.getString("SecurityQuestion"));
+            user.setAnswer(rs.getString("Answer"));
+            user.setCreatedAt(rs.getTimestamp("CreatedAt").toLocalDateTime());
+            user.setApproved(rs.getBoolean("IsApproved"));
+            user.setPoint(rs.getInt("Point"));
+            user.setRank(rs.getString("Rank"));
+            return user;
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public User getById(int userId) {
+        try {
+            String query = "SELECT * FROM [User];";
+            ResultSet rs = DbOperations.getData(query);
+
+            User user = null;
+            if (rs.next()) {
+                user = map(rs);
+            }
+            return user;
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);
+            return null;
+        }
+    }
 
     public void create(User user) {
         String query = "INSERT INTO [User] (Email, Password, FullName, Sex, BirthDate, PhoneNumber, SecurityQuestion, Answer) "
@@ -75,7 +121,7 @@ public class UserDao {
         try {
             ResultSet rs = DbOperations.getData(query, args);
             while (rs.next()) {
-                User user = User.map(rs);
+                User user = map(rs);
                 users.add(user);
             }
         } catch (Exception e) {

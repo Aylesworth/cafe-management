@@ -3,19 +3,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
-import java.util.ArrayList;
-import java.util.Iterator;
-import model.Category;
-import model.Product;
 import dao.CategoryDao;
 import dao.ProductDao;
+import model.Product;
 /**
  *
  * @author Hasagi
  */
 public class AddNewProduct extends javax.swing.JFrame {
     
-    private CategoryDao categoryDao = new CategoryDao();
+    private CategoryDao categoryDao = CategoryDao.getInstance();
 
     /**
      * Creates new form AddNewProduct
@@ -168,9 +165,9 @@ public class AddNewProduct extends javax.swing.JFrame {
         // TODO add your handling code here:
         Product product = new Product();
         product.setName(txtName.getText());
-        product.setCategory((String)txtCategory.getSelectedItem());
+        product.setCategory(categoryDao.getByName((String)txtCategory.getSelectedItem()));
         product.setPrice(Double.parseDouble(txtPrice.getText()));
-        ProductDao.save(product);
+        ProductDao.getInstance().save(product);
         setVisible(false);
         new AddNewProduct().setVisible(true);
     }//GEN-LAST:event_btnSaveActionPerformed

@@ -14,7 +14,6 @@ import lombok.Data;
 public class Product {
     private int id;
     private String name;
-    private String category;
+    private Category category;
     private double price;
-    private String description;
 }

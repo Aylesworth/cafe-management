@@ -17,38 +17,54 @@ import model.Product;
  */
 public class ProductDao {
 
-    public static void save(Product product) {
+    private static ProductDao productDao;
+
+    public static ProductDao getInstance() {
+        if (productDao == null) {
+            productDao = new ProductDao();
+        }
+        return productDao;
+    }
+
+    public Product getById(int id) {
         try {
-            int categoryId = 0;
-            ResultSet rs = DbOperations.getData("SELECT Id FROM Category WHERE Name LIKE ?", new Object[]{product.getCategory()});
+            String query = "SELECT * FROM Product WHERE Id = ?;";
+            ResultSet rs = DbOperations.getData(query, new Object[]{id});
 
-            while (rs.next()) {
-                categoryId = rs.getInt("Id");
+            Product product = null;
+            if (rs.next()) {
+                product = new Product();
+                product.setCategory(new CategoryDao().getById(rs.getInt("CategoryId")));
+                product.setId(rs.getInt("Id"));
+                product.setName(rs.getString("Name"));
+                product.setPrice(rs.getDouble("Price"));
             }
-
-            String query = "INSERT INTO Product (Name, CategoryId, Price, Description) VALUES (?, ?, ?, ?)";
-            Object[] args = {product.getName(), categoryId, product.getPrice(), product.getDescription()};
-
-            DbOperations.updateData(query, args, "Product added successfully");
-        } catch (SQLException ex) {
+            return product;
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex);
+            return null;
         }
     }
 
-    public static List<Product> getAll() {
+    public void save(Product product) {
+        String query = "INSERT INTO Product (Name, CategoryId, Price) VALUES (?, ?, ?)";
+        Object[] args = {product.getName(), product.getCategory().getId(), product.getPrice()};
+
+        DbOperations.updateData(query, args, "Product added successfully");
+    }
+
+    public List<Product> getAll() {
         List<Product> products = new ArrayList<>();
         try {
             ResultSet rs = DbOperations.getData(
-                    "SELECT p.Id AS Id, p.Name AS ProductName, c.Name AS CategoryName, Price, Description"
-                    + " FROM Product p JOIN Category c ON p.CategoryId = c.Id"
+                    "SELECT * FROM Product"
             );
             while (rs.next()) {
                 Product product = new Product();
                 product.setId(rs.getInt("Id"));
-                product.setName(rs.getString("ProductName"));
-                product.setCategory(rs.getString("CategoryName"));
+                product.setName(rs.getString("Name"));
+                product.setCategory(CategoryDao.getInstance().getById(rs.getInt("CategoryId")));
                 product.setPrice(rs.getDouble("Price"));
-                product.setDescription(rs.getString("Description"));
                 products.add(product);
             }
         } catch (Exception ex) {
@@ -58,7 +74,7 @@ public class ProductDao {
         return products;
     }
 
-    public static void update(Product product) {
+    public void update(Product product) {
         try {
             int categoryId = 0;
             ResultSet rs = DbOperations.getData("SELECT Id FROM Category WHERE Name LIKE ?", new Object[]{product.getCategory()});
@@ -67,8 +83,8 @@ public class ProductDao {
                 categoryId = rs.getInt("Id");
             }
 
-            String query = "UPDATE Product SET Name = ?, CategoryId = ?, Price = ?, Description = ? WHERE Id = ?";
-            Object[] args = {product.getName(), categoryId, product.getPrice(), product.getDescription(), product.getId()};
+            String query = "UPDATE Product SET Name = ?, CategoryId = ?, Price = ? WHERE Id = ?";
+            Object[] args = {product.getName(), categoryId, product.getPrice(), product.getId()};
 
             DbOperations.updateData(query, args, "Product updated successfully!");
         } catch (SQLException ex) {
@@ -76,14 +92,14 @@ public class ProductDao {
         }
     }
 
-    public static void delete(int id) {
+    public void delete(int id) {
         String query = "DELETE FROM Product WHERE Id = ?";
         Object[] args = {id};
 
         DbOperations.updateData(query, args, "Product deleted successfully!");
     }
 
-    public static List<Product> filterByCategory(String category) {
+    public List<Product> filterByCategory(String category) {
         List<Product> products = new ArrayList<>();
         try {
             String query = "SELECT p.Name AS Name "
@@ -103,7 +119,7 @@ public class ProductDao {
         return products;
     }
 
-    public static List<Product> filterByName(String name, String category) {
+    public List<Product> filterByName(String name, String category) {
         List<Product> products = new ArrayList<>();
         try {
             String query = "SELECT p.Name AS Name "
@@ -124,7 +140,7 @@ public class ProductDao {
         return products;
     }
 
-    public static Product getByName(String name) {
+    public Product getByName(String name) {
         Product product = new Product();
         try {
             String query = "SELECT p.Name AS Name, c.Name AS CategoryName, p.Price "
@@ -136,7 +152,7 @@ public class ProductDao {
 
             while (rs.next()) {
                 product.setName(rs.getString("Name"));
-                product.setCategory(rs.getString("CategoryName"));
+                product.setCategory(CategoryDao.getInstance().getById(rs.getInt("CategoryId")));
                 product.setPrice(rs.getDouble("Price"));
             }
         } catch (Exception e) {

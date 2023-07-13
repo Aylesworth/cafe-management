@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import javax.swing.JOptionPane;
 
 /**
@@ -19,26 +18,36 @@ import javax.swing.JOptionPane;
  */
 public class DbOperations {
 
-    public static void updateData(String query, String message) {
-        updateData(query, new Object[]{}, message);
+    public static int updateData(String query, String message) {
+        return updateData(query, new Object[]{}, message);
     }
 
-    public static void updateData(String query, Object[] args, String message) {
+    public static int updateData(String query, Object[] args, String message) {
         try {
             Connection con = ConnectionProvider.getCon();
-            PreparedStatement st = con.prepareStatement(query);
+            PreparedStatement st = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
             for (int i = 0; i < args.length; i++) {
                 st.setObject(i + 1, args[i]);
             }
 
-            st.executeUpdate();
+            int id = -1;
+            int affectedRows = st.executeUpdate();
+            if (affectedRows > 0) {
+                ResultSet generatedKeys = st.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    id = generatedKeys.getInt(1);
+                }
+            }
+
             if (!message.isBlank()) {
                 JOptionPane.showMessageDialog(null, message);
             }
+            return id;
         } catch (HeadlessException | SQLException e) {
             JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
+            return -1;
         }
 
     }

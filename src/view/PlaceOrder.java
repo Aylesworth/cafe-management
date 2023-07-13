@@ -63,15 +63,15 @@ public class PlaceOrder extends javax.swing.JFrame {
     private void filterProductsByCategory(String category) {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
-        List<Product> products = ProductDao.filterByCategory(category);
-        products.stream().forEach(p -> model.addRow(new Object[]{p.getName()}));
+//        List<Product> products = ProductDao.filterByCategory(category);
+//        products.stream().forEach(p -> model.addRow(new Object[]{p.getName()}));
     }
 
     private void filterProductsByName(String name, String category) {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
-        List<Product> products = ProductDao.filterByName(name, category);
-        products.stream().forEach(p -> model.addRow(new Object[]{p.getName()}));
+//        List<Product> products = ProductDao.filterByName(name, category);
+//        products.stream().forEach(p -> model.addRow(new Object[]{p.getName()}));
     }
 
     private void clearProductFields() {
@@ -381,18 +381,18 @@ public class PlaceOrder extends javax.swing.JFrame {
         int index = jTable1.getSelectedRow();
         TableModel model = jTable1.getModel();
         String productName = model.getValueAt(index, 0).toString();
-        Product product = ProductDao.getByName(productName);
-
-        txtProdName.setText(product.getName());
-
-        productPrice = product.getPrice();
-        txtProdPrice.setText(String.valueOf(productPrice));
-
-        jSpinner1.setValue(1);
-        productTotal = productPrice;
-        txtProdTotal.setText(String.valueOf(productTotal));
-
-        btnAddToCart.setEnabled(true);
+//        Product product = ProductDao.getByName(productName);
+//
+//        txtProdName.setText(product.getName());
+//
+//        productPrice = product.getPrice();
+//        txtProdPrice.setText(String.valueOf(productPrice));
+//
+//        jSpinner1.setValue(1);
+//        productTotal = productPrice;
+//        txtProdTotal.setText(String.valueOf(productTotal));
+//
+//        btnAddToCart.setEnabled(true);
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jSpinner1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner1StateChanged

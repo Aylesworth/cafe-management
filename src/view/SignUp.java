@@ -172,6 +172,8 @@ public class SignUp extends javax.swing.JFrame {
 
         txtPassword.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         getContentPane().add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 290, 400, -1));
+
+        dpBirthDate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         getContentPane().add(dpBirthDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 410, 400, -1));
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N

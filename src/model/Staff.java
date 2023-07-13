@@ -4,31 +4,22 @@
  */
 package model;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import lombok.Data;
 
 /**
  *
- * @author Dungpc
+ * @author Admin
  */
 @Data
-public class User {
-
+public class Staff {
     private int id;
-    private String email;
-    private String password;
     private String fullName;
     private String sex;
     private LocalDate birthDate;
     private String phoneNumber;
-    private String securityQuestion;
-    private String answer;
-    private LocalDateTime createdAt;
-    private boolean isApproved;
-    private int point;
-    private String rank;
-
+    private String position;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private double monthlySalary;
 }

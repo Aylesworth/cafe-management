@@ -70,7 +70,7 @@ public class ForgotPasswordPage extends javax.swing.JFrame {
         btnSignup.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
-                new Signup().setVisible(true);
+                new SignUp().setVisible(true);
             }
         });
         btnExit = new javax.swing.JButton();
