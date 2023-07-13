@@ -185,7 +185,7 @@ public class Login extends javax.swing.JFrame {
 
     private void btnSignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignupActionPerformed
         setVisible(false);
-        new Signup().setVisible(true);
+        new SignUp().setVisible(true);
     }//GEN-LAST:event_btnSignupActionPerformed
 
     private void txtEmailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailKeyReleased

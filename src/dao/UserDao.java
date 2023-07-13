@@ -10,8 +10,8 @@ import model.User;
 public class UserDao {
 
     public void create(User user) {
-        String query = "INSERT INTO [User] (Email, Password, FullName, Sex, BirthDate, PhoneNumber, SecurityQuestion, Answer, CreatedAt, Point, Rank) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO [User] (Email, Password, FullName, Sex, BirthDate, PhoneNumber, SecurityQuestion, Answer) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         Object[] args = {
             user.getEmail(),
             user.getPassword(),
@@ -20,10 +20,7 @@ public class UserDao {
             user.getBirthDate().toString(),
             user.getPhoneNumber(),
             user.getSecurityQuestion(),
-            user.getAnswer(),
-            Timestamp.valueOf(LocalDateTime.now()),
-            0,
-            "Regular"
+            user.getAnswer()
         };
 
         DbOperations.updateData(query, args, "Registered succcessfully! Please wait for admin approval.");
@@ -90,7 +87,7 @@ public class UserDao {
     public void changeApproved(String email, boolean approved) {
         String query = "UPDATE [User] SET IsApproved = ? WHERE Email = ?";
         Object[] args = {approved, email};
-        DbOperations.updateData(query, "Status changed successfully!");
+        DbOperations.updateData(query, args, "Status changed successfully!");
     }
 
     public void changePassword(String email, String oldPassword, String newPassword) {
@@ -119,7 +116,7 @@ public class UserDao {
 
             if (rs.next()) {
                 query = "UPDATE [User] SET SecurityQuestion = ?, Answer = ? WHERE Email = ?";
-                args = new Object[] {securityQuestion, answer, email};
+                args = new Object[]{securityQuestion, answer, email};
 
                 DbOperations.updateData(query, "Security question changed successfully!");
             } else {
