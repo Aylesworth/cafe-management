@@ -5,41 +5,116 @@
 package dao;
 
 import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import model.Order;
+import model.Status;
 
 /**
  *
- * @author Admin   
+ * @author Admin
  */
 public class OrderDao {
-    public void placeOrder(Order order) {
-        int paymentMethodId = 0;
+
+    private static OrderDao orderDao;
+
+    public static OrderDao getInstance() {
+        if (orderDao == null) {
+            orderDao = new OrderDao();
+        }
+        return orderDao;
+    }
+
+    public List<Order> getOrders(LocalDate fromDate, LocalDate toDate) {
         try {
-            String getPaymentMethodId = "SELECT Id FROM PaymentMethod WHERE Name = ?";
-            ResultSet rs = DbOperations.getData(getPaymentMethodId, new Object[] {order.getPaymentMethod()});
-            while (rs.next()) {
-                paymentMethodId = rs.getInt("Id");
+            List<Order> orders = new ArrayList<>();
+
+            String query = null;
+            if (fromDate != null && toDate != null) {
+                query = "SELECT * FROM [Order] WHERE CONVERT(DATE, CreatedAt) BETWEEN ? AND ? ORDER BY CreatedAt ASC";
+            } else {
+                if (fromDate == null) {
+                    fromDate = LocalDate.of(2000, 1, 1);
+                }
+                if (toDate == null) {
+                    toDate = LocalDate.now();
+                }
+                query = "SELECT TOP 30 * FROM [Order] WHERE CONVERT(DATE, CreatedAt) BETWEEN ? AND ? ORDER BY CreatedAt ASC";
             }
+            Object[] args = {fromDate.toString(), toDate.toString()};
+            ResultSet rs = DbOperations.getData(query, args);
+            while (rs.next()) {
+                Order order = new Order();
+                order.setId(rs.getInt("Id"));
+                order.setUser(UserDao.getInstance().getById(rs.getInt("UserId")));
+                order.setCreatedAt(rs.getTimestamp("CreatedAt").toLocalDateTime());
+                order.setFinalCost(rs.getDouble("FinalCost"));
+                //TODO: order.setShipper
+                order.setStatus(getStatusById(rs.getInt("StatusId")));
+                orders.add(order);
+            }
+            return orders;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex);
-            return;
+            return null;
         }
-        
-        String insertOrder = "INSERT INTO Order (UserId, CreatedAt, TotalCost, ShipCost, Discount, FinalCost, DeliveryInfoId, PaymentMethod, PaymentInfoId) "
+    }
+
+    public void saveOrder(Order order) {
+        String insertOrder = "INSERT INTO [Order] (UserId, TotalCost, ShipCost, Discount, DeliveryInfoId, PaymentMethod, PaymentInfoId, StatusId) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        Object[] args = {order.getUser().getId(), order.getTotalCost(), order.getShipCost(), order.getDiscount(), order.getFinalCost(), order.getDeliveryInfo().getId(), paymentMethodId, order.getPaymentInfo().getId()};
-        
-        int orderId = DbOperations.updateData(insertOrder, "");
-        
-        String insertItem = "INSERT INTO OrderDetails (OrderId, ProductId, Quantity, UnitPrice, TotalAmount) VALUES (?, ?, ?, ?, ?)";
+        Object[] args = {order.getUser().getId(), order.getTotalCost(), order.getShipCost(), order.getDiscount(), order.getDeliveryInfo().getId(), order.getPaymentMethodId(), order.getPaymentInfo() == null ? null : order.getPaymentInfo().getId(), 1};
+
+        int orderId = DbOperations.updateData(insertOrder, args, "");
+
+        String insertItem = "INSERT INTO OrderDetails (OrderId, ProductId, Quantity, UnitPrice) VALUES (?, ?, ?, ?)";
         order.getItems().forEach(orderDetails -> {
-            Object[] args2 = {orderId, orderDetails.getProduct().getId(), orderDetails.getQuantity(), orderDetails.getUnitPrice(), orderDetails.getTotalAmount()};
-            DbOperations.updateData(insertItem, "");
+            Object[] args2 = {orderId, orderDetails.getProduct().getId(), orderDetails.getQuantity(), orderDetails.getUnitPrice()};
+            DbOperations.updateData(insertItem, args2, "");
         });
-        
+
         JOptionPane.showMessageDialog(null, "Your order was placed successfully! Thanks for purchasing!");
     }
-    
-    
+
+    public void updateOrder(Order order) {
+        String query = "UPDATE [Order] SET StatusId = ?, ShipperId = ? WHERE Id = ?";
+        Object[] args = {order.getStatus().getId(), order.getShipper() == null ? null : order.getShipper().getId(), order.getId()};
+        DbOperations.updateData(query, args, "Order updated successfully");
+    }
+
+    public List<Status> getAllStatus() {
+        try {
+            List<Status> statusList = new ArrayList<>();
+            ResultSet rs = DbOperations.getData("SELECT * FROM Status");
+            while (rs.next()) {
+                Status status = new Status();
+                status.setId(rs.getInt("Id"));
+                status.setValue(rs.getString("Value"));
+                statusList.add(status);
+            }
+            return statusList;
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);
+            return null;
+        }
+    }
+
+    public Status getStatusById(int id) {
+        try {
+            ResultSet rs = DbOperations.getData("SELECT * FROM Status WHERE Id = ?", new Object[]{id});
+            Status status = null;
+            if (rs.next()) {
+                status = new Status();
+                status.setId(rs.getInt("Id"));
+                status.setValue(rs.getString("Value"));
+            }
+            return status;
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);
+            return null;
+        }
+    }
+
 }

@@ -41,8 +41,24 @@ public class UserDao {
 
     public User getById(int userId) {
         try {
-            String query = "SELECT * FROM [User];";
-            ResultSet rs = DbOperations.getData(query);
+            String query = "SELECT * FROM [User] WHERE Id = ?;";
+            ResultSet rs = DbOperations.getData(query, new Object[]{userId});
+
+            User user = null;
+            if (rs.next()) {
+                user = map(rs);
+            }
+            return user;
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);
+            return null;
+        }
+    }
+
+    public User getByEmail(String userEmail) {
+        try {
+            String query = "SELECT * FROM [User] WHERE Email = ?;";
+            ResultSet rs = DbOperations.getData(query, new Object[]{userEmail});
 
             User user = null;
             if (rs.next()) {

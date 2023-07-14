@@ -15,11 +15,15 @@ import java.util.Date;
  * @author Admin
  */
 public class Utils {
+
     public static String formatTimestamp(LocalDateTime localDateTime) {
         return localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"));
     }
-    
+
     public static LocalDate toLocalDate(Date date) {
+        if (date == null) {
+            return null;
+        }
         return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 }

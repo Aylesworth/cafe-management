@@ -11,10 +11,7 @@ import lombok.Data;
  * @author Admin
  */
 @Data
-public class DeliveryInfo {
+public class Status {
     private int id;
-    private int userId;
-    private String recipientName;
-    private String phoneNumber;
-    private String address;
+    private String value;
 }

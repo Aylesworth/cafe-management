@@ -14,6 +14,22 @@ import lombok.Data;
  */
 @Data
 public class Order {
+    public Order() {
+        createdAt = LocalDateTime.now();
+    }
+    
+    public Order(Cart cart) {
+        this();
+        items = cart.getItems().stream()
+                .map(item -> {
+                    OrderDetails orderDetails = new OrderDetails();
+                    orderDetails.setProduct(item.getProduct());
+                    orderDetails.setQuantity(item.getQuantity());
+                    orderDetails.setUnitPrice(item.getProduct().getPrice());
+                    return orderDetails;
+                }).toList();
+    }
+    
     private int id;
     private User user;
     private LocalDateTime createdAt;
@@ -22,9 +38,9 @@ public class Order {
     private double discount;
     private double finalCost;
     private DeliveryInfo deliveryInfo;
-    private String paymentMethod;
+    private int paymentMethodId;
     private PaymentInfo paymentInfo;
     private Staff shipper;
-    private LocalDateTime deliveredAt;
+    private Status status;
     private List<OrderDetails> items;
 }

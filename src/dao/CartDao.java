@@ -51,6 +51,7 @@ public class CartDao {
     }
 
     public void saveCart(Cart cart) {
+        if (cart.getItems().isEmpty()) return;
         cart.getItems().stream()
                 .forEach(item -> {
 //                    if (item.getId() == 0) {

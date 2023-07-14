@@ -3,13 +3,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
+
+import dao.UserDao;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author Dungpc
  */
 public class Home extends javax.swing.JFrame {
+
     private String email;
+
     /**
      * Creates new form Home
      */
@@ -20,7 +25,7 @@ public class Home extends javax.swing.JFrame {
     public Home(String userEmail) {
         initComponents();
         email = userEmail;
-        if(!email.equals("admin")){
+        if (!email.equals("admin")) {
             btnCategory.setVisible(false);
             btnNewProduct.setVisible(false);
             btnViewEditDeleteProduct.setVisible(false);
@@ -40,13 +45,14 @@ public class Home extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         btnPlaceOrder = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnViewMenu = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         btnCategory = new javax.swing.JButton();
         btnNewProduct = new javax.swing.JButton();
         btnViewEditDeleteProduct = new javax.swing.JButton();
         btnVerifyUsers = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -82,15 +88,15 @@ public class Home extends javax.swing.JFrame {
         });
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 34, -1, -1));
 
-        jButton4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/change Password.png"))); // NOI18N
-        jButton4.setText("Change Password");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnViewMenu.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnViewMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/place order.png"))); // NOI18N
+        btnViewMenu.setText("View Menu");
+        btnViewMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnViewMenuActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(724, 34, -1, -1));
+        getContentPane().add(btnViewMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 140, -1, -1));
 
         jButton5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/change Security Question.png"))); // NOI18N
@@ -152,6 +158,16 @@ public class Home extends javax.swing.JFrame {
         });
         getContentPane().add(btnVerifyUsers, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 680, -1, -1));
 
+        jButton7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/change Password.png"))); // NOI18N
+        jButton7.setText("Change Password");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(724, 34, -1, -1));
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/home-background-image.png"))); // NOI18N
         jLabel1.setText("jLabel1");
         jLabel1.setMaximumSize(new java.awt.Dimension(1366, 768));
@@ -166,14 +182,14 @@ public class Home extends javax.swing.JFrame {
         new ViewBillsOrderPlacedDetails().setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        new ChangePassword(email).setVisible(true);        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void btnViewMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewMenuActionPerformed
+        new Menu(UserDao.getInstance().getByEmail(email).getId()).setVisible(true);
+    }//GEN-LAST:event_btnViewMenuActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
-        int a = JOptionPane.showConfirmDialog(null, "Do you really want to Close Application","Select",JOptionPane.YES_NO_OPTION);
-        if(a==0){
+        int a = JOptionPane.showConfirmDialog(null, "Do you really want to Close Application", "Select", JOptionPane.YES_NO_OPTION);
+        if (a == 0) {
             System.exit(0);
     }//GEN-LAST:event_jButton6ActionPerformed
     }
@@ -184,8 +200,8 @@ public class Home extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        int a = JOptionPane.showConfirmDialog(null, "Do you really want to Logout","Select",JOptionPane.YES_NO_OPTION);
-        if(a==0){
+        int a = JOptionPane.showConfirmDialog(null, "Do you really want to Logout", "Select", JOptionPane.YES_NO_OPTION);
+        if (a == 0) {
             setVisible(false);
             new Login().setVisible(true);
         }
@@ -213,6 +229,10 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
         new ChangeSecurityQuestion(email).setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -255,11 +275,12 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton btnPlaceOrder;
     private javax.swing.JButton btnVerifyUsers;
     private javax.swing.JButton btnViewEditDeleteProduct;
+    private javax.swing.JButton btnViewMenu;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

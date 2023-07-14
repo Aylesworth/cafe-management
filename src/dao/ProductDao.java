@@ -7,8 +7,11 @@ package dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JOptionPane;
+import model.Category;
 import model.Product;
 
 /**
@@ -55,6 +58,10 @@ public class ProductDao {
 
     public List<Product> getAll() {
         List<Product> products = new ArrayList<>();
+        Map<Integer, Category> categories = new HashMap<>();
+        CategoryDao.getInstance().getAllRecords().forEach(category -> {
+            categories.put(category.getId(), category);
+        });
         try {
             ResultSet rs = DbOperations.getData(
                     "SELECT * FROM Product"
@@ -63,9 +70,10 @@ public class ProductDao {
                 Product product = new Product();
                 product.setId(rs.getInt("Id"));
                 product.setName(rs.getString("Name"));
-                product.setCategory(CategoryDao.getInstance().getById(rs.getInt("CategoryId")));
+                product.setCategory(categories.get(rs.getInt("CategoryId")));
                 product.setPrice(rs.getDouble("Price"));
                 products.add(product);
+                System.out.println(product);
             }
         } catch (Exception ex) {
             ex.printStackTrace();

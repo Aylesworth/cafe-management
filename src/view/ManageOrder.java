@@ -4,6 +4,20 @@
  */
 package view;
 
+import common.Utils;
+import dao.OrderDao;
+import java.awt.Component;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JList;
+import javax.swing.table.DefaultTableModel;
+import model.Order;
+import model.Staff;
+import model.Status;
+
 /**
  *
  * @author Dungpc
@@ -27,25 +41,31 @@ public class ManageOrder extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblOrders = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        lblStatus = new javax.swing.JLabel();
+        cbxShipper = new javax.swing.JComboBox<>();
+        cbxStatus = new javax.swing.JComboBox<>();
+        btnUpdate = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        dpTo = new com.toedter.calendar.JDateChooser();
+        lblShipper = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        dpFrom = new com.toedter.calendar.JDateChooser();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(1366, 768));
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblOrders.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "Id", "Created at", "User email", "Total", "Shipper", "Status"
@@ -59,33 +79,68 @@ public class ManageOrder extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        tblOrders.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblOrdersMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblOrders);
+        if (tblOrders.getColumnModel().getColumnCount() > 0) {
+            tblOrders.getColumnModel().getColumn(0).setMinWidth(100);
+            tblOrders.getColumnModel().getColumn(0).setPreferredWidth(100);
+            tblOrders.getColumnModel().getColumn(0).setMaxWidth(100);
+        }
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(126, 57, 1000, -1));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(126, 94, 1100, 390));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel1.setText("Assign shipper");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(496, 535, -1, -1));
+        jLabel1.setText("To");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 40, -1, -1));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("Change status");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(496, 567, -1, -1));
+        lblStatus.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblStatus.setText("Change status");
+        getContentPane().add(lblStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 570, -1, -1));
 
-        jComboBox1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(693, 532, 182, -1));
+        cbxShipper.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        getContentPane().add(cbxShipper, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 530, 182, -1));
 
-        jComboBox2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(693, 564, 182, -1));
+        cbxStatus.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        getContentPane().add(cbxStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 570, 182, -1));
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setText("Update");
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(594, 640, 144, 56));
+        btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 630, 144, 56));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setText("Manage Order");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(33, 14, -1, -1));
+
+        dpTo.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dpToPropertyChange(evt);
+            }
+        });
+        getContentPane().add(dpTo, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 40, 200, -1));
+
+        lblShipper.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblShipper.setText("Set shipper");
+        getContentPane().add(lblShipper, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 530, -1, -1));
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel6.setText("From");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 40, -1, -1));
+
+        dpFrom.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dpFromPropertyChange(evt);
+            }
+        });
+        getContentPane().add(dpFrom, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 40, 200, -1));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/images/full-page-background.PNG"))); // NOI18N
         jLabel4.setText("jLabel4");
@@ -93,6 +148,111 @@ public class ManageOrder extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    List<Status> statusList;
+
+    List<Staff> shipperList;
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+
+        cbxShipper.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof Staff staff) {
+                    if (staff.getId() == 0) {
+                        setText("None");
+                    } else {
+                        setText(staff.getFullName() + " (ID: " + staff.getId() + ")");
+                    }
+                }
+                return this;
+            }
+
+        });
+
+        Staff staff = new Staff();
+        staff.setId(0);
+        cbxShipper.addItem(staff);
+        shipperList = new ArrayList<>();
+
+        cbxStatus.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof Status status) {
+                    setText(status.getValue());
+                }
+                return this;
+            }
+
+        });
+        statusList = OrderDao.getInstance().getAllStatus();
+        statusList.forEach((status) -> {
+            cbxStatus.addItem(status);
+        });
+
+        loadOrders();
+    }//GEN-LAST:event_formComponentShown
+
+    private void dpFromPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dpFromPropertyChange
+        loadOrders();
+    }//GEN-LAST:event_dpFromPropertyChange
+
+    private void dpToPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dpToPropertyChange
+        loadOrders();
+    }//GEN-LAST:event_dpToPropertyChange
+
+    private void tblOrdersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblOrdersMouseClicked
+        String status = (String) tblOrders.getValueAt(tblOrders.getSelectedRow(), 5);
+        cbxStatus.setSelectedItem(statusList.stream().filter(s -> s.getValue().equals(status)).findFirst().get());
+
+        String shipper = (String) tblOrders.getValueAt(tblOrders.getSelectedRow(), 4);
+        if (shipper.equals("(Not yet assigned)")) {
+            cbxShipper.setSelectedIndex(0);
+        } else {
+            cbxShipper.setSelectedItem(shipperList.stream().filter(s -> (s.getFullName() + " (ID: " + s.getId() + ")").equals(shipper)).findFirst().get());
+        }
+
+        lblShipper.setVisible(true);
+        lblStatus.setVisible(true);
+        cbxShipper.setVisible(true);
+        cbxStatus.setVisible(true);
+        btnUpdate.setVisible(true);
+    }//GEN-LAST:event_tblOrdersMouseClicked
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        Order order = new Order();
+        order.setId((Integer) tblOrders.getValueAt(tblOrders.getSelectedRow(), 0));
+        if (((Staff) cbxShipper.getSelectedItem()).getId() != 0) {
+            order.setShipper((Staff) cbxShipper.getSelectedItem());
+        }
+        order.setStatus((Status) cbxStatus.getSelectedItem());
+        OrderDao.getInstance().updateOrder(order);
+        loadOrders();
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void loadOrders() {
+
+        lblShipper.setVisible(false);
+        lblStatus.setVisible(false);
+        cbxShipper.setVisible(false);
+        cbxStatus.setVisible(false);
+        btnUpdate.setVisible(false);
+
+        DefaultTableModel tableModel = (DefaultTableModel) tblOrders.getModel();
+        tableModel.setRowCount(0);
+
+        OrderDao.getInstance().getOrders(Utils.toLocalDate(dpFrom.getDate()), Utils.toLocalDate(dpTo.getDate()))
+                .forEach(order -> tableModel.addRow(new Object[]{
+            order.getId(),
+            order.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm")),
+            order.getUser().getEmail(),
+            order.getFinalCost(),
+            order.getShipper() == null ? "(Not yet assigned)" : order.getShipper().getFullName() + " (ID: " + order.getShipper().getId() + ")",
+            order.getStatus().getValue()
+        }));
+    }
 
     /**
      * @param args the command line arguments
@@ -130,14 +290,18 @@ public class ManageOrder extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JButton btnUpdate;
+    private javax.swing.JComboBox<Staff> cbxShipper;
+    private javax.swing.JComboBox<Status> cbxStatus;
+    private com.toedter.calendar.JDateChooser dpFrom;
+    private com.toedter.calendar.JDateChooser dpTo;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lblShipper;
+    private javax.swing.JLabel lblStatus;
+    private javax.swing.JTable tblOrders;
     // End of variables declaration//GEN-END:variables
 }

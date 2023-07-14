@@ -2,7 +2,7 @@ package dao;
 
 import javax.swing.JOptionPane;
 
-public class TablesCreation {
+public class DatabaseInit {
 
     private static final String dropTables
             = """
@@ -11,6 +11,7 @@ public class TablesCreation {
             DROP TABLE IF EXISTS Voucher;
             DROP TABLE IF EXISTS OrderDetails;
             DROP TABLE IF EXISTS [Order];
+            DROP TABLE IF EXISTS Status;
             DROP TABLE IF EXISTS DeliveryInfo;
             DROP TABLE IF EXISTS PaymentInfo;
             DROP TABLE IF EXISTS PaymentMethod;
@@ -18,6 +19,7 @@ public class TablesCreation {
             DROP TABLE IF EXISTS Product;
             DROP TABLE IF EXISTS Category;
             DROP TABLE IF EXISTS [User];
+            DROP TABLE IF EXISTS Rank;
             """;
 
     private static final String userTable
@@ -35,10 +37,28 @@ public class TablesCreation {
                 CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
                 IsApproved BIT DEFAULT 0,
                 Point INT DEFAULT 0,
-                Rank VARCHAR(20) DEFAULT 'Regular'
+                Rank INT DEFAULT 1,
+                FOREIGN KEY (Rank) REFERENCES Rank(Id)
             );
             INSERT INTO [User] (Email, Password, FullName, Sex, BirthDate, PhoneNumber, SecurityQuestion, Answer, IsApproved)
             VALUES ('admin', 'admin', 'Admin', 'Null', '1900-01-01', '0123456789', 'Why is dark humor like food?', 'Because not everybody gets it', 1);
+            """;
+
+    private static final String rankTable
+            = """
+            CREATE TABLE Rank (
+                Id INT PRIMARY KEY,
+                Name VARCHAR(20),
+                MinPoint INT
+            );
+            
+            INSERT INTO Rank (Id, Name, MinPoint) 
+            VALUES 
+                (1, 'Bronze', 0),
+                (2, 'Silver', 500),
+                (3, 'Gold', 1000),
+                (4, 'Platinum', 2000),
+                (5, 'Diamond', 5000);
             """;
 
     private static final String deliveryInfoTable
@@ -49,7 +69,7 @@ public class TablesCreation {
                 RecipientName VARCHAR(200) NOT NULL,
                 PhoneNumber VARCHAR(12) NOT NULL,
                 Address VARCHAR(100) NOT NULL,
-                FOREIGN KEY (UserId) REFERENCES [User](Id)
+                FOREIGN KEY (UserId) REFERENCES [User](Id) ON DELETE CASCADE
             );
             """;
 
@@ -68,7 +88,7 @@ public class TablesCreation {
                 City VARCHAR(50),
                 ZipCode VARCHAR(6),
                 Country VARCHAR(50),
-                FOREIGN KEY (UserId) REFERENCES [User](Id)
+                FOREIGN KEY (UserId) REFERENCES [User](Id) ON DELETE CASCADE
             );
             """;
 
@@ -88,6 +108,7 @@ public class TablesCreation {
                 Id INT PRIMARY KEY IDENTITY(1,1),
                 Name VARCHAR(50) NOT NULL
             );
+              
             INSERT INTO Category (Name)
             VALUES
                 ('Beverages'),
@@ -173,18 +194,19 @@ public class TablesCreation {
                 TotalCost DECIMAL(10,2) NOT NULL,
                 ShipCost DECIMAL(10,2),
                 Discount DECIMAL(10,2),
-                FinalCost DECIMAL(10,2),
+                FinalCost AS (TotalCost + ShipCost - Discount),
                 DeliveryInfoId INT NOT NULL,
                 PaymentMethod INT NOT NULL,
                 PaymentInfoId INT,
                 Note VARCHAR(100),
                 ShipperId INT,
-                DeliveredAt DATETIME,
-                FOREIGN KEY (UserId) REFERENCES [User](Id),
+                StatusId INT,
+                FOREIGN KEY (UserId) REFERENCES [User](Id) ON DELETE CASCADE,
                 FOREIGN KEY (DeliveryInfoId) REFERENCES DeliveryInfo(Id),
                 FOREIGN KEY (PaymentMethod) REFERENCES PaymentMethod(Id),
                 FOREIGN KEY (PaymentInfoId) REFERENCES PaymentInfo(Id),
-                FOREIGN KEY (ShipperId) REFERENCES Staff(Id)
+                FOREIGN KEY (ShipperId) REFERENCES Staff(Id) ON DELETE SET NULL,
+                FOREIGN KEY (StatusId) REFERENCES Status(Id)
             );
             """;
 
@@ -193,12 +215,12 @@ public class TablesCreation {
             CREATE TABLE OrderDetails (
                 Id INT PRIMARY KEY IDENTITY(1,1),
                 OrderId INT NOT NULL,
-                ProductId INT NOT NULL,
+                ProductId INT,
                 Quantity INT NOT NULL,
                 UnitPrice DECIMAL(10,2),
                 TotalAmount AS (UnitPrice * Quantity),
-                FOREIGN KEY (OrderId) REFERENCES [Order](Id),
-                FOREIGN KEY (ProductId) REFERENCES Product(Id)
+                FOREIGN KEY (OrderId) REFERENCES [Order](Id) ON DELETE CASCADE,
+                FOREIGN KEY (ProductId) REFERENCES Product(Id) ON DELETE SET NULL
             );
             """;
 
@@ -222,10 +244,11 @@ public class TablesCreation {
             CREATE TABLE Voucher (
                 Id INT PRIMARY KEY IDENTITY(1,1),
                 Name VARCHAR(100) NOT NULL,
-                MinPoint DECIMAL(10,2),
-                MinQuantity INT,
+                MinRank INT,
+                MinCost DECIMAL(10,2),
                 DiscountPercentage DECIMAL(10,2),
-                DiscountAmount DECIMAL(10,2)
+                MaxDiscountAmount DECIMAL(10,2),
+                FOREIGN KEY (MinRank) REFERENCES Rank(Id) ON DELETE CASCADE
             );
             """;
 
@@ -236,8 +259,8 @@ public class TablesCreation {
                 VoucherId INT NOT NULL,
                 UserId INT NOT NULL,
                 OrderId INT
-                FOREIGN KEY (VoucherId) REFERENCES Voucher(Id),
-                FOREIGN KEY (UserId) REFERENCES [User](Id),
+                FOREIGN KEY (VoucherId) REFERENCES Voucher(Id) ON DELETE CASCADE,
+                FOREIGN KEY (UserId) REFERENCES [User](Id) ON DELETE CASCADE,
                 FOREIGN KEY (OrderId) REFERENCES [Order](Id),
             );
             """;
@@ -249,11 +272,72 @@ public class TablesCreation {
                 UserId INT NOT NULL,
                 ProductId INT NOT NULL,
                 Quantity INT NOT NULL,
-                FOREIGN KEY (UserId) REFERENCES [User](Id),
-                FOREIGN KEY (ProductId) REFERENCES Product(Id),
+                FOREIGN KEY (UserId) REFERENCES [User](Id) ON DELETE CASCADE,
+                FOREIGN KEY (ProductId) REFERENCES Product(Id) ON DELETE CASCADE,
             );
             """;
 
+    private static final String statusTable
+            = """
+            CREATE TABLE Status (
+                Id INT PRIMARY KEY,
+                Value VARCHAR(50)
+            );
+            INSERT INTO Status (Id, Value) VALUES (1, 'Received'), (2, 'Delivering'), (3, 'Delivered');
+            """;
+
+    private static final String altRankTrigger = 
+            """
+            CREATE TRIGGER tg_AltRank ON Rank INSTEAD OF DELETE
+            AS
+            IF (SELECT Id FROM deleted) = 1
+            BEGIN
+                    PRINT 'Cannot delete the lowest rank'
+                    ROLLBACK
+            END
+            ELSE
+            BEGIN
+                    UPDATE [User] SET Rank = Rank - 1
+                    WHERE Rank = (SELECT Id FROM deleted);
+                    DELETE FROM Rank WHERE Id = (SELECT Id FROM deleted);
+            END;
+            """;
+    
+    private static final String delCategoryTrigger =
+            """
+            CREATE TRIGGER tg_DelCategory ON Category INSTEAD OF DELETE
+            AS
+            IF (SELECT COUNT(*) FROM Product WHERE CategoryId = (SELECT Id FROM deleted)) > 0
+            BEGIN
+              IF (SELECT COUNT(*) FROM Category WHERE Name = 'None') = 0
+                      INSERT INTO Category (Name) VALUES ('None');
+              UPDATE Product SET CategoryId = (SELECT Id FROM Category WHERE Name = 'None')
+              WHERE CategoryId = (SELECT Id FROM deleted);
+            END
+            """;
+    
+    private static final String incUserPointTrigger = 
+            """
+            CREATE TRIGGER tg_IncUserPoint ON [Order] FOR INSERT
+            AS
+            UPDATE u SET u.Point = u.Point + CAST(ROUND(o.FinalCost, 0) AS INT)
+            FROM [User] u INNER JOIN inserted o ON u.Id = o.UserId;
+            UPDATE u SET u.Rank = u.Rank + 1
+            FROM [User] u
+            WHERE u.Rank <> (SELECT Id FROM Rank r WHERE r.MinPoint = (SELECT MAX(MinPoint) FROM Rank))
+            AND u.Point >= (SELECT MinPoint FROM Rank r WHERE r.Id = u.Rank + 1);
+            """;
+    
+    private static final String giveVoucherTrigger = 
+            """
+            CREATE TRIGGER tg_GiveVoucher ON Voucher FOR INSERT
+            AS
+            INSERT INTO VoucherUsage (VoucherId, UserId, OrderId)
+            SELECT v.Id, u.Id, NULL
+            FROM [User] u, inserted v
+            WHERE u.Rank >= v.MinRank;
+            """;
+    
     public static void main(String[] args) {
         try {
 //            String userTable = " CREATE TABLE [user] " + "( id INT IDENTITY(1,1) PRIMARY KEY," + "  name VARCHAR(200),"
@@ -272,7 +356,6 @@ public class TablesCreation {
 //                    + "mobileNumber VARCHAR(200), "
 //                    + "email VARCHAR(200), "
 //                    + "date DATE, "
-
 //                    + "total DECIMAL(10,2), "
 //                    + "createdBy VARCHAR(200) )";
 //                        DbOperations.updateData(adminDetails, " Add admin details successfully");
@@ -280,18 +363,25 @@ public class TablesCreation {
 //                        DbOperations.updateData(productTable, " Product Table Created successfully");
 //            DbOperations.updateData(billTable, "Bill table created successfully");
             DbOperations.updateData(dropTables, "Tables dropped successfully");
-            DbOperations.updateData(userTable, "User table created successfully");
-            DbOperations.updateData(staffTable, "Staff table created successfully");
-            DbOperations.updateData(categoryTable, "Category table created successfully");
-            DbOperations.updateData(productTable, "Product table created successfully");
-            DbOperations.updateData(deliveryInfoTable, "Delivery info table created successfully");
-            DbOperations.updateData(paymentMethodTable, "Payment method table created successfully");
-            DbOperations.updateData(paymentInfoTable, "Payment info table created successfully");
-            DbOperations.updateData(orderTable, "Order table created successfully");
-            DbOperations.updateData(orderDetailsTable, "Order details table created successfully");
-            DbOperations.updateData(voucherTable, "Voucher table created successfully");
-            DbOperations.updateData(voucherUsageTable, "Voucher usage table created successfully");
-            DbOperations.updateData(cartItemTable, "Cart item table created successfully");
+            DbOperations.updateData(rankTable, "");
+            DbOperations.updateData(userTable, "");
+            DbOperations.updateData(staffTable, "");
+            DbOperations.updateData(categoryTable, "");
+            DbOperations.updateData(productTable, "");
+            DbOperations.updateData(deliveryInfoTable, "");
+            DbOperations.updateData(paymentMethodTable, "");
+            DbOperations.updateData(paymentInfoTable, "");
+            DbOperations.updateData(statusTable, "");
+            DbOperations.updateData(orderTable, "");
+            DbOperations.updateData(orderDetailsTable, "");
+            DbOperations.updateData(voucherTable, "");
+            DbOperations.updateData(voucherUsageTable, "");
+            DbOperations.updateData(cartItemTable, "Tables created successfully");
+            DbOperations.updateData(altRankTrigger, "");
+            DbOperations.updateData(delCategoryTrigger, "");
+            DbOperations.updateData(incUserPointTrigger, "");
+            DbOperations.updateData(giveVoucherTrigger, "Triggers created successfully");
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
             e.printStackTrace();

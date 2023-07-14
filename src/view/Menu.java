@@ -13,7 +13,6 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Cart;
 import model.CartItem;
-import model.Category;
 import model.Product;
 
 /**
@@ -207,11 +206,17 @@ public class Menu extends javax.swing.JFrame {
         jLabel9.setText("Total: ");
 
         lblTotal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblTotal.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         lblTotal.setText("$ 0,00");
 
         btnPlaceOrder.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnPlaceOrder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/images/place order.png"))); // NOI18N
         btnPlaceOrder.setText("Place Order");
+        btnPlaceOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPlaceOrderActionPerformed(evt);
+            }
+        });
 
         btnClearCart.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnClearCart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/clear.png"))); // NOI18N
@@ -286,7 +291,7 @@ public class Menu extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(66, 66, 66))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -320,8 +325,8 @@ public class Menu extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblTotal))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -395,6 +400,7 @@ public class Menu extends javax.swing.JFrame {
         txtProductName.setText("");
         txtUnitPrice.setText("");
         spnQuantity.setValue(0);
+        spnQuantity.setEnabled(false);
         txtTotal.setText("");
 
         tableModel = (DefaultTableModel) tblCart.getModel();
@@ -404,7 +410,6 @@ public class Menu extends javax.swing.JFrame {
         });
 
         double total = cart.getItems().stream().mapToDouble(item -> item.getProduct().getPrice() * item.getQuantity()).sum();
-        System.out.println(total);
         lblTotal.setText(String.format("$ %.2f", total));
 
         new Thread(() -> {
@@ -515,7 +520,9 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_tblCartMouseClicked
 
     private void spnQuantityStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnQuantityStateChanged
-        if (txtUnitPrice.getText().isEmpty()) return;
+        if (txtUnitPrice.getText().isEmpty()) {
+            return;
+        }
         txtTotal.setText("%.2f".formatted(Double.parseDouble(txtUnitPrice.getText()) * ((Integer) spnQuantity.getValue())));
     }//GEN-LAST:event_spnQuantityStateChanged
 
@@ -531,6 +538,14 @@ public class Menu extends javax.swing.JFrame {
             loadCart();
         }
     }//GEN-LAST:event_btnClearCartActionPerformed
+
+    private void btnPlaceOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlaceOrderActionPerformed
+        if (cart.getItems().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Your cart is empty!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        new PlaceOrderView(userId, cart, this).setVisible(true);
+    }//GEN-LAST:event_btnPlaceOrderActionPerformed
 
     /**
      * @param args the command line arguments
