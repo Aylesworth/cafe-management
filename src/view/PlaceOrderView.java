@@ -8,7 +8,10 @@ import dao.CartDao;
 import dao.DeliveryInfoDao;
 import dao.OrderDao;
 import dao.PaymentInfoDao;
+import dao.VoucherDao;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Cart;
@@ -16,6 +19,7 @@ import model.DeliveryInfo;
 import model.Order;
 import model.PaymentInfo;
 import model.User;
+import model.Voucher;
 
 /**
  *
@@ -68,12 +72,11 @@ public class PlaceOrderView extends javax.swing.JFrame {
         rbtnCredit = new javax.swing.JRadioButton();
         rbtnCOD = new javax.swing.JRadioButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tblPayment = new javax.swing.JTable();
+        tblVouchers = new javax.swing.JTable();
         btnRemovePaymentInfo = new javax.swing.JButton();
         btnAddPaymentInfo = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        cbxVoucher = new javax.swing.JComboBox<>();
         btnPurchase = new javax.swing.JButton();
         lblTotal = new javax.swing.JLabel();
         lblShipCost = new javax.swing.JLabel();
@@ -82,10 +85,15 @@ public class PlaceOrderView extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         txtNote = new javax.swing.JTextArea();
         btnClose = new javax.swing.JButton();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tblPayment = new javax.swing.JTable();
+        btnDeselect = new javax.swing.JButton();
         jLabel15 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(1366, 768));
         setMinimumSize(new java.awt.Dimension(1366, 768));
+        setPreferredSize(new java.awt.Dimension(1366, 768));
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
@@ -94,63 +102,72 @@ public class PlaceOrderView extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("PLACE ORDER");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 245, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 245, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Item List");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(311, 99, 120, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 50, 120, -1));
 
+        tblItems.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         tblItems.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "No.", "Product Name", "Unit Price", "Quantity", "Total"
+                "No.", "Product Name", "Unit Price", "Quantity", "Subtotal"
             }
         ));
         jScrollPane1.setViewportView(tblItems);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 140, 600, -1));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 90, 600, 340));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Total: ");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 580, 88, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 460, 88, -1));
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Ship cost: ");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 620, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 500, -1, -1));
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Discount:");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 660, 88, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 540, 88, -1));
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Final cost:");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 710, 88, -1));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 590, 88, -1));
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Delivery Info");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 120, -1, -1));
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 50, -1, -1));
 
-        btnRemoveDeliveryInfo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnRemoveDeliveryInfo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnRemoveDeliveryInfo.setText("Remove");
         btnRemoveDeliveryInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRemoveDeliveryInfoActionPerformed(evt);
             }
         });
-        getContentPane().add(btnRemoveDeliveryInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1033, 113, -1, -1));
+        getContentPane().add(btnRemoveDeliveryInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 40, -1, -1));
 
-        btnAddDeliveryInfo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnAddDeliveryInfo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnAddDeliveryInfo.setText("Add");
         btnAddDeliveryInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddDeliveryInfoActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAddDeliveryInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1166, 113, -1, -1));
+        getContentPane().add(btnAddDeliveryInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 40, -1, -1));
 
+        tblDelivery.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         tblDelivery.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -179,32 +196,145 @@ public class PlaceOrderView extends javax.swing.JFrame {
             tblDelivery.getColumnModel().getColumn(0).setMaxWidth(0);
         }
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 160, 480, 130));
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 90, 480, 90));
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Payment Method: ");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 310, -1, -1));
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 200, -1, -1));
 
         buttonGroup1.add(rbtnCredit);
-        rbtnCredit.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        rbtnCredit.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        rbtnCredit.setForeground(new java.awt.Color(255, 255, 255));
         rbtnCredit.setText("Credit Cash");
         rbtnCredit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbtnCreditActionPerformed(evt);
             }
         });
-        getContentPane().add(rbtnCredit, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 340, 126, -1));
+        getContentPane().add(rbtnCredit, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 230, 126, -1));
 
         buttonGroup1.add(rbtnCOD);
-        rbtnCOD.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        rbtnCOD.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        rbtnCOD.setForeground(new java.awt.Color(255, 255, 255));
         rbtnCOD.setText("Cash on Delivery");
         rbtnCOD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbtnCODActionPerformed(evt);
             }
         });
-        getContentPane().add(rbtnCOD, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 340, -1, -1));
+        getContentPane().add(rbtnCOD, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 230, -1, -1));
 
+        tblVouchers.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        tblVouchers.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Voucher", "Expirement Date"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        tblVouchers.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblVouchersMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tblVouchers);
+        if (tblVouchers.getColumnModel().getColumnCount() > 0) {
+            tblVouchers.getColumnModel().getColumn(0).setMinWidth(0);
+            tblVouchers.getColumnModel().getColumn(0).setPreferredWidth(0);
+            tblVouchers.getColumnModel().getColumn(0).setMaxWidth(0);
+            tblVouchers.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tblVouchers.getColumnModel().getColumn(2).setMaxWidth(100);
+        }
+
+        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 430, 485, 90));
+
+        btnRemovePaymentInfo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnRemovePaymentInfo.setText("Remove");
+        btnRemovePaymentInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemovePaymentInfoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnRemovePaymentInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 370, -1, -1));
+
+        btnAddPaymentInfo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnAddPaymentInfo.setText("Add");
+        btnAddPaymentInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddPaymentInfoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnAddPaymentInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1170, 370, -1, -1));
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("Voucher: ");
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 400, -1, -1));
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setText("Note: ");
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 560, 65, -1));
+
+        btnPurchase.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnPurchase.setText("Purchase");
+        btnPurchase.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPurchaseActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnPurchase, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 640, 134, 62));
+
+        lblTotal.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblTotal.setForeground(new java.awt.Color(255, 255, 255));
+        lblTotal.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        lblTotal.setText("$0,000");
+        getContentPane().add(lblTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 460, 70, -1));
+
+        lblShipCost.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblShipCost.setForeground(new java.awt.Color(255, 255, 255));
+        lblShipCost.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        lblShipCost.setText("$0,000");
+        getContentPane().add(lblShipCost, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 500, 70, -1));
+
+        lblDiscount.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblDiscount.setForeground(new java.awt.Color(255, 255, 255));
+        lblDiscount.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        lblDiscount.setText("$0,000");
+        getContentPane().add(lblDiscount, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 540, 70, -1));
+
+        lblFinalCost.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblFinalCost.setForeground(new java.awt.Color(255, 255, 255));
+        lblFinalCost.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        lblFinalCost.setText("$0,000");
+        getContentPane().add(lblFinalCost, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 590, 70, -1));
+
+        txtNote.setColumns(18);
+        txtNote.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txtNote.setRows(3);
+        jScrollPane4.setViewportView(txtNote);
+
+        getContentPane().add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 560, 270, -1));
+
+        btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/close.png"))); // NOI18N
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 20, -1, -1));
+
+        tblPayment.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         tblPayment.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -226,86 +356,26 @@ public class PlaceOrderView extends javax.swing.JFrame {
                 tblPaymentMouseClicked(evt);
             }
         });
-        jScrollPane3.setViewportView(tblPayment);
+        jScrollPane5.setViewportView(tblPayment);
         if (tblPayment.getColumnModel().getColumnCount() > 0) {
             tblPayment.getColumnModel().getColumn(0).setMinWidth(0);
             tblPayment.getColumnModel().getColumn(0).setPreferredWidth(0);
             tblPayment.getColumnModel().getColumn(0).setMaxWidth(0);
+            tblPayment.getColumnModel().getColumn(2).setHeaderValue("Card Number");
+            tblPayment.getColumnModel().getColumn(3).setPreferredWidth(100);
+            tblPayment.getColumnModel().getColumn(3).setMaxWidth(100);
         }
 
-        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 370, 485, 90));
+        getContentPane().add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 270, 485, 90));
 
-        btnRemovePaymentInfo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnRemovePaymentInfo.setText("Remove");
-        btnRemovePaymentInfo.addActionListener(new java.awt.event.ActionListener() {
+        btnDeselect.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnDeselect.setText("Deselect");
+        btnDeselect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemovePaymentInfoActionPerformed(evt);
+                btnDeselectActionPerformed(evt);
             }
         });
-        getContentPane().add(btnRemovePaymentInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 480, -1, -1));
-
-        btnAddPaymentInfo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnAddPaymentInfo.setText("Add");
-        btnAddPaymentInfo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddPaymentInfoActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnAddPaymentInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1170, 480, -1, -1));
-
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel9.setText("Voucher: ");
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 530, -1, -1));
-
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel10.setText("Note: ");
-        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 570, 65, -1));
-
-        cbxVoucher.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        getContentPane().add(cbxVoucher, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 530, 194, -1));
-
-        btnPurchase.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnPurchase.setText("Purchase");
-        btnPurchase.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPurchaseActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPurchase, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 670, 134, 62));
-
-        lblTotal.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblTotal.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        lblTotal.setText("$0,000");
-        getContentPane().add(lblTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 580, 74, -1));
-
-        lblShipCost.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblShipCost.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        lblShipCost.setText("$0,000");
-        getContentPane().add(lblShipCost, new org.netbeans.lib.awtextra.AbsoluteConstraints(314, 620, 80, -1));
-
-        lblDiscount.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblDiscount.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        lblDiscount.setText("$0,000");
-        getContentPane().add(lblDiscount, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 660, 74, -1));
-
-        lblFinalCost.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblFinalCost.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        lblFinalCost.setText("$0,000");
-        getContentPane().add(lblFinalCost, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 710, 74, -1));
-
-        txtNote.setColumns(18);
-        txtNote.setRows(4);
-        jScrollPane4.setViewportView(txtNote);
-
-        getContentPane().add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 570, -1, -1));
-
-        btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/close.png"))); // NOI18N
-        btnClose.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCloseActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(1320, 40, -1, -1));
+        getContentPane().add(btnDeselect, new org.netbeans.lib.awtextra.AbsoluteConstraints(1150, 530, -1, -1));
 
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/images/full-page-background.PNG"))); // NOI18N
         jLabel15.setText("jLabel15");
@@ -320,6 +390,7 @@ public class PlaceOrderView extends javax.swing.JFrame {
     DefaultTableModel tblItemsModel;
     DefaultTableModel tblDeliveryModel;
     DefaultTableModel tblPaymentModel;
+    DefaultTableModel tblVouchersModel;
 
     private double total;
     private double shipCost = 1;
@@ -330,13 +401,12 @@ public class PlaceOrderView extends javax.swing.JFrame {
         loadItems();
         loadDeliveryInfos();
         loadPaymentInfos();
+        loadVouchers();
 
         btnRemoveDeliveryInfo.setVisible(false);
         btnRemovePaymentInfo.setVisible(false);
 
         rbtnCredit.setSelected(true);
-
-        loadVouchers();
     }//GEN-LAST:event_formComponentShown
 
     private void btnAddDeliveryInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDeliveryInfoActionPerformed
@@ -385,34 +455,58 @@ public class PlaceOrderView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRemovePaymentInfoActionPerformed
 
     private void rbtnCODActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnCODActionPerformed
-//        tblPayment.setEnabled(false);
+        jScrollPane5.setEnabled(false);
         tblPayment.setVisible(false);
         validateFields();
     }//GEN-LAST:event_rbtnCODActionPerformed
 
     private void rbtnCreditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnCreditActionPerformed
-//        tblPayment.setEnabled(true);
+        jScrollPane5.setEnabled(true);
         tblPayment.setVisible(true);
         validateFields();
     }//GEN-LAST:event_rbtnCreditActionPerformed
 
-    private void tblPaymentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPaymentMouseClicked
-        if (tblPayment.getSelectedRow() != -1) {
-            btnRemovePaymentInfo.setVisible(true);
-        } else {
-            btnRemovePaymentInfo.setVisible(false);
+    private void tblVouchersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblVouchersMouseClicked
+        applyVoucher();
+    }//GEN-LAST:event_tblVouchersMouseClicked
+
+    private void applyVoucher() {
+        if (tblVouchers.getSelectedRow() < 0) {
+            discount = 0;
+            updateCosts();
+            return;
         }
-        validateFields();
-    }//GEN-LAST:event_tblPaymentMouseClicked
+
+        int id = (Integer) tblVouchers.getValueAt(tblVouchers.getSelectedRow(), 0);
+        Voucher v = voucherMap.get(id);
+
+        if (v.getDiscountPercentage() != -1 && v.getMaxDiscountAmount() != -1) {
+            double discountByPercentage = total * v.getDiscountPercentage() / 100;
+            if (discountByPercentage > v.getMaxDiscountAmount()) {
+                discount = v.getMaxDiscountAmount();
+            } else {
+                discount = discountByPercentage;
+            }
+        } else if (v.getDiscountPercentage() != -1) {
+            discount = total * v.getDiscountPercentage() / 100;
+        } else if (v.getMaxDiscountAmount() != -1) {
+            discount = v.getMaxDiscountAmount();
+        }
+
+        if (total + shipCost - discount < 0) {
+            discount = total + shipCost;
+        }
+        updateCosts();
+    }
 
     private void btnPurchaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPurchaseActionPerformed
         Order order = new Order(cart);
         User user = new User();
         user.setId(userId);
         order.setUser(user);
-        order.setTotalCost(Double.parseDouble(lblTotal.getText().substring(2)));
-        order.setShipCost(Double.parseDouble(lblShipCost.getText().substring(2)));
-        order.setDiscount(Double.parseDouble(lblDiscount.getText().substring(4)));
+        order.setTotalCost(total);
+        order.setShipCost(shipCost);
+        order.setDiscount(discount);
         DeliveryInfo deliveryInfo = new DeliveryInfo();
         deliveryInfo.setId((Integer) tblDelivery.getValueAt(tblDelivery.getSelectedRow(), 0));
         order.setDeliveryInfo(deliveryInfo);
@@ -424,11 +518,34 @@ public class PlaceOrderView extends javax.swing.JFrame {
         } else {
             order.setPaymentMethodId(2);
         }
+
+        if (tblVouchers.getSelectedRow() >= 0) {
+            Voucher voucher = new Voucher();
+            voucher.setId((Integer) tblVouchers.getValueAt(tblVouchers.getSelectedRow(), 0));
+            order.setVoucher(voucher);
+        }
+
         OrderDao.getInstance().saveOrder(order);
+
         setVisible(false);
         cart.getItems().clear();
         menuView.loadCart();
     }//GEN-LAST:event_btnPurchaseActionPerformed
+
+    private void tblPaymentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPaymentMouseClicked
+        if (tblPayment.getSelectedRow() != -1) {
+            btnRemovePaymentInfo.setVisible(true);
+        } else {
+            btnRemovePaymentInfo.setVisible(false);
+        }
+        validateFields();
+    }//GEN-LAST:event_tblPaymentMouseClicked
+
+    private void btnDeselectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeselectActionPerformed
+        tblVouchers.clearSelection();
+        discount = 0;
+        updateCosts();
+    }//GEN-LAST:event_btnDeselectActionPerformed
 
     private void loadItems() {
         tblItemsModel = (DefaultTableModel) tblItems.getModel();
@@ -481,8 +598,20 @@ public class PlaceOrderView extends javax.swing.JFrame {
         validateFields();
     }
 
+    private Map<Integer, Voucher> voucherMap;
+
     private void loadVouchers() {
-        cbxVoucher.addItem("None");
+        voucherMap = new HashMap<>();
+
+        tblVouchersModel = (DefaultTableModel) tblVouchers.getModel();
+        tblVouchersModel.setRowCount(0);
+        VoucherDao.getInstance().getVouchersOfUser(userId)
+                .stream()
+                .filter(v -> total > v.getMinCost())
+                .forEach(v -> {
+                    voucherMap.put(v.getId(), v);
+                    tblVouchersModel.addRow(new Object[]{v.getId(), v.getName(), v.getExpDate()});
+                });
     }
 
     private void validateFields() {
@@ -534,11 +663,11 @@ public class PlaceOrderView extends javax.swing.JFrame {
     private javax.swing.JButton btnAddDeliveryInfo;
     private javax.swing.JButton btnAddPaymentInfo;
     private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnDeselect;
     private javax.swing.JButton btnPurchase;
     private javax.swing.JButton btnRemoveDeliveryInfo;
     private javax.swing.JButton btnRemovePaymentInfo;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JComboBox<String> cbxVoucher;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel15;
@@ -554,6 +683,7 @@ public class PlaceOrderView extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JLabel lblDiscount;
     private javax.swing.JLabel lblFinalCost;
     private javax.swing.JLabel lblShipCost;
@@ -563,6 +693,7 @@ public class PlaceOrderView extends javax.swing.JFrame {
     private javax.swing.JTable tblDelivery;
     private javax.swing.JTable tblItems;
     private javax.swing.JTable tblPayment;
+    private javax.swing.JTable tblVouchers;
     private javax.swing.JTextArea txtNote;
     // End of variables declaration//GEN-END:variables
 }

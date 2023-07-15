@@ -243,11 +243,11 @@ public class DatabaseInit {
             = """
             CREATE TABLE Voucher (
                 Id INT PRIMARY KEY IDENTITY(1,1),
-                Name VARCHAR(100) NOT NULL,
                 MinRank INT,
                 MinCost DECIMAL(10,2),
                 DiscountPercentage DECIMAL(10,2),
                 MaxDiscountAmount DECIMAL(10,2),
+                ExpDate DATE NOT NULL,
                 FOREIGN KEY (MinRank) REFERENCES Rank(Id) ON DELETE CASCADE
             );
             """;

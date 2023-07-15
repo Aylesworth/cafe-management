@@ -67,13 +67,31 @@ public class OrderDao {
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         Object[] args = {order.getUser().getId(), order.getTotalCost(), order.getShipCost(), order.getDiscount(), order.getDeliveryInfo().getId(), order.getPaymentMethodId(), order.getPaymentInfo() == null ? null : order.getPaymentInfo().getId(), 1};
 
-        int orderId = DbOperations.updateData(insertOrder, args, "");
+        DbOperations.updateData(insertOrder, args, "");
+
+        final int orderId;
+        ResultSet rs = DbOperations.getData("SELECT MAX(Id) AS OrderId FROM [Order]");
+        try {
+            if (rs.next()) {
+                orderId = rs.getInt("OrderId");
+            } else {
+                orderId = -1;
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);
+            return;
+        }
 
         String insertItem = "INSERT INTO OrderDetails (OrderId, ProductId, Quantity, UnitPrice) VALUES (?, ?, ?, ?)";
         order.getItems().forEach(orderDetails -> {
             Object[] args2 = {orderId, orderDetails.getProduct().getId(), orderDetails.getQuantity(), orderDetails.getUnitPrice()};
             DbOperations.updateData(insertItem, args2, "");
         });
+
+        if (order.getVoucher() != null) {
+            String updateVoucherUsage = "UPDATE VoucherUsage SET OrderId = ? WHERE UserId = ? AND VoucherId = ?";
+            DbOperations.updateData(updateVoucherUsage, new Object[]{orderId, order.getUser().getId(), order.getVoucher().getId()}, "");
+        }
 
         JOptionPane.showMessageDialog(null, "Your order was placed successfully! Thanks for purchasing!");
     }

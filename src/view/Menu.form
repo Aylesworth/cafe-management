@@ -290,7 +290,7 @@
                 <Column editable="true" title="No." type="java.lang.Object"/>
                 <Column editable="true" title="ProductName" type="java.lang.Object"/>
                 <Column editable="true" title="Quantity" type="java.lang.Object"/>
-                <Column editable="true" title="Cost" type="java.lang.Object"/>
+                <Column editable="true" title="Subtotal" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

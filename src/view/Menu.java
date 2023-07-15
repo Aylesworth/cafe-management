@@ -144,7 +144,7 @@ public class Menu extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "No.", "ProductName", "Quantity", "Cost"
+                "No.", "ProductName", "Quantity", "Subtotal"
             }
         ));
         tblCart.addMouseListener(new java.awt.event.MouseAdapter() {

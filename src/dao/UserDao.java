@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import model.Rank;
 import model.User;
 
 public class UserDao {
@@ -32,7 +33,7 @@ public class UserDao {
             user.setCreatedAt(rs.getTimestamp("CreatedAt").toLocalDateTime());
             user.setApproved(rs.getBoolean("IsApproved"));
             user.setPoint(rs.getInt("Point"));
-            user.setRank(rs.getString("Rank"));
+            user.setRank(rs.getInt("Rank"));
             return user;
         } catch (Exception ex) {
             return null;
@@ -186,6 +187,43 @@ public class UserDao {
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    public List<Rank> getAllRanks() {
+        String query = "SELECT * FROM Rank";
+        ResultSet rs = DbOperations.getData(query);
+        List<Rank> ranks = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                Rank rank = new Rank();
+                rank.setId(rs.getInt("Id"));
+                rank.setName(rs.getString("Name"));
+                rank.setMinPoint(rs.getInt("MinPoint"));
+                ranks.add(rank);
+            }
+            return ranks;
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);
+            return null;
+        }
+    }
+
+    public Rank getRankById(int id) {
+        String query = "SELECT * FROM Rank WHERE Id = ?";
+        ResultSet rs = DbOperations.getData(query, new Object[]{id});
+        try {
+            Rank rank = null;
+            if (rs.next()) {
+                rank = new Rank();
+                rank.setId(rs.getInt("Id"));
+                rank.setName(rs.getString("Name"));
+                rank.setMinPoint(rs.getInt("MinPoint"));
+            }
+            return rank;
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);
+            return null;
         }
     }
 }
