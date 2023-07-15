@@ -27,6 +27,6 @@ public class User {
     private LocalDateTime createdAt;
     private boolean isApproved;
     private int point;
-    private String rank;
+    private int rank;
     
 }
