@@ -26,4 +26,11 @@ public class Utils {
         }
         return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
+
+    public static Date toDate(LocalDate localDate) {
+        if (localDate == null) {
+            return null;
+        }
+        return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+    }
 }

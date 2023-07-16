@@ -6,7 +6,9 @@ package view;
 
 import common.Utils;
 import dao.UserDao;
+import java.time.LocalDate;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import model.User;
 
 /**
@@ -16,13 +18,14 @@ import model.User;
 public class SignUp extends javax.swing.JFrame {
 
     public String emailPattern = "^[a-zA-Z0-9]+[@][a-zA-Z0-9]+([.][a-zA-Z0-9]+)+$";
-    public String phoneNumberPattern = "^[0-9]{10}$ ";
+    public String phoneNumberPattern = "^[0-9]{10}$";
 
     /**
      * Creates new form SignUp2
      */
     public SignUp() {
         initComponents();
+        validateFields();
     }
 
     /**
@@ -58,8 +61,9 @@ public class SignUp extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtPhoneNumber = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        txtAddress = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        txtSecurityQuestion1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -75,19 +79,24 @@ public class SignUp extends javax.swing.JFrame {
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 210, -1, -1));
 
         txtName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        txtName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNameActionPerformed(evt);
+        txtName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNameKeyReleased(evt);
             }
         });
         getContentPane().add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 210, 400, -1));
 
         txtEmail.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txtEmail.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtEmailKeyReleased(evt);
+            }
+        });
         getContentPane().add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 250, 400, -1));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("Email");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 250, -1, 24));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 244, -1, 30));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setText("Sex");
@@ -99,22 +108,27 @@ public class SignUp extends javax.swing.JFrame {
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setText("Security question ");
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 490, -1, -1));
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 530, -1, -1));
 
         txtSecurityQuestion.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        getContentPane().add(txtSecurityQuestion, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 490, 400, -1));
+        txtSecurityQuestion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSecurityQuestionKeyReleased(evt);
+            }
+        });
+        getContentPane().add(txtSecurityQuestion, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 530, 400, -1));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setText("Answer");
-        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 530, -1, -1));
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 570, -1, -1));
 
         txtAnswer.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        txtAnswer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtAnswerActionPerformed(evt);
+        txtAnswer.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtAnswerKeyReleased(evt);
             }
         });
-        getContentPane().add(txtAnswer, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 530, 400, -1));
+        getContentPane().add(txtAnswer, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 570, 400, -1));
 
         btnSave.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save.png"))); // NOI18N
@@ -124,7 +138,7 @@ public class SignUp extends javax.swing.JFrame {
                 btnSaveActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 580, -1, -1));
+        getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 620, -1, -1));
 
         btnClear.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/clear.png"))); // NOI18N
@@ -134,12 +148,12 @@ public class SignUp extends javax.swing.JFrame {
                 btnClearActionPerformed(evt);
             }
         });
-        getContentPane().add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 580, -1, -1));
+        getContentPane().add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 620, -1, -1));
 
         btnExit.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/exit small.png"))); // NOI18N
         btnExit.setText("Exit");
-        getContentPane().add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 580, -1, -1));
+        getContentPane().add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 620, -1, -1));
 
         btnLogin.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnLogin.setText("Login");
@@ -148,20 +162,20 @@ public class SignUp extends javax.swing.JFrame {
                 btnLoginActionPerformed(evt);
             }
         });
-        getContentPane().add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 630, -1, -1));
+        getContentPane().add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 670, -1, -1));
 
         btnForgot.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnForgot.setText("Forgot Password?");
-        getContentPane().add(btnForgot, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 630, -1, -1));
+        getContentPane().add(btnForgot, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 670, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel8.setText("Confirm password");
         getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 330, -1, -1));
 
         txtConfirmPassword.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        txtConfirmPassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtConfirmPasswordActionPerformed(evt);
+        txtConfirmPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtConfirmPasswordKeyReleased(evt);
             }
         });
         getContentPane().add(txtConfirmPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 330, 400, -1));
@@ -171,9 +185,19 @@ public class SignUp extends javax.swing.JFrame {
         getContentPane().add(cbxSex, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 370, 400, -1));
 
         txtPassword.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPasswordKeyReleased(evt);
+            }
+        });
         getContentPane().add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 290, 400, -1));
 
         dpBirthDate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        dpBirthDate.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dpBirthDatePropertyChange(evt);
+            }
+        });
         getContentPane().add(dpBirthDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 410, 400, -1));
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -181,11 +205,28 @@ public class SignUp extends javax.swing.JFrame {
         getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 410, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel4.setText("Phone number");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 450, -1, 20));
+        jLabel4.setText("Address");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 490, -1, 20));
 
         txtPhoneNumber.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txtPhoneNumber.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPhoneNumberKeyReleased(evt);
+            }
+        });
         getContentPane().add(txtPhoneNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 450, 400, -1));
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel11.setText("Phone number");
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 450, -1, 20));
+
+        txtAddress.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txtAddress.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtAddressKeyReleased(evt);
+            }
+        });
+        getContentPane().add(txtAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 490, 400, -1));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/images/first page background.PNG"))); // NOI18N
         jLabel5.setText("jLabel5");
@@ -194,18 +235,17 @@ public class SignUp extends javax.swing.JFrame {
         jLabel5.setPreferredSize(new java.awt.Dimension(1366, 768));
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        txtSecurityQuestion1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        getContentPane().add(txtSecurityQuestion1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 480, 400, -1));
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
-
-    }//GEN-LAST:event_txtNameActionPerformed
-
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
+
+        UserDao userDao = new UserDao();
+        if (userDao.getByEmail(txtEmail.getText()) != null) {
+            JOptionPane.showMessageDialog(null, "Email already used!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         User user = new User();
         user.setFullName(txtName.getText());
@@ -214,10 +254,10 @@ public class SignUp extends javax.swing.JFrame {
         user.setSex((String) cbxSex.getSelectedItem());
         user.setBirthDate(Utils.toLocalDate(dpBirthDate.getDate()));
         user.setPhoneNumber(txtPhoneNumber.getText());
+        user.setAddress(txtAddress.getText());
         user.setSecurityQuestion(txtSecurityQuestion.getText());
         user.setAnswer(txtAnswer.getText());
 
-        UserDao userDao = new UserDao();
         userDao.create(user);
         clear();
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -231,13 +271,41 @@ public class SignUp extends javax.swing.JFrame {
         new Login().setVisible(true);
     }//GEN-LAST:event_btnLoginActionPerformed
 
-    private void txtConfirmPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtConfirmPasswordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtConfirmPasswordActionPerformed
+    private void txtNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNameKeyReleased
+        validateFields();
+    }//GEN-LAST:event_txtNameKeyReleased
 
-    private void txtAnswerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAnswerActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtAnswerActionPerformed
+    private void txtEmailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailKeyReleased
+        validateFields();
+    }//GEN-LAST:event_txtEmailKeyReleased
+
+    private void txtPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyReleased
+        validateFields();
+    }//GEN-LAST:event_txtPasswordKeyReleased
+
+    private void txtConfirmPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtConfirmPasswordKeyReleased
+        validateFields();
+    }//GEN-LAST:event_txtConfirmPasswordKeyReleased
+
+    private void dpBirthDatePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dpBirthDatePropertyChange
+        validateFields();
+    }//GEN-LAST:event_dpBirthDatePropertyChange
+
+    private void txtPhoneNumberKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPhoneNumberKeyReleased
+        validateFields();
+    }//GEN-LAST:event_txtPhoneNumberKeyReleased
+
+    private void txtAddressKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAddressKeyReleased
+        validateFields();
+    }//GEN-LAST:event_txtAddressKeyReleased
+
+    private void txtSecurityQuestionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSecurityQuestionKeyReleased
+        validateFields();
+    }//GEN-LAST:event_txtSecurityQuestionKeyReleased
+
+    private void txtAnswerKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAnswerKeyReleased
+        validateFields();
+    }//GEN-LAST:event_txtAnswerKeyReleased
 
     public void validateFields() {
         String name = txtName.getText();
@@ -245,16 +313,28 @@ public class SignUp extends javax.swing.JFrame {
         String password = txtPassword.getText();
         String confirmPassword = txtConfirmPassword.getText();
         String phoneNumber = txtPhoneNumber.getText();
-        Date birthDate = dpBirthDate.getDate();
+        String address = txtAddress.getText();
+        LocalDate birthDate = Utils.toLocalDate(dpBirthDate.getDate());
         String securityQuestion = txtSecurityQuestion.getText();
         String answer = txtAnswer.getText();
+        System.out.println(!name.isEmpty());
+        System.out.println(email.matches(emailPattern));
+        System.out.println(phoneNumber.matches(phoneNumberPattern));
+        System.out.println(!address.isEmpty());
+        System.out.println(!password.isEmpty());
+        System.out.println(confirmPassword.equals(password));
+        System.out.println(birthDate != null && birthDate.isBefore(LocalDate.now()));
+        System.out.println(!securityQuestion.isEmpty());
+        System.out.println(!answer.isEmpty());
+        System.out.println();
         if (!name.isEmpty() && email.matches(emailPattern) && phoneNumber.matches(phoneNumberPattern)
+                && !address.isEmpty()
                 && !password.isEmpty() && confirmPassword.equals(password)
-                && birthDate != null
+                && birthDate != null && birthDate.isBefore(LocalDate.now())
                 && !securityQuestion.isEmpty() && !answer.isEmpty()) {
             btnSave.setEnabled(true);
         } else {
-            btnSave.setEnabled(true);
+            btnSave.setEnabled(false);
         }
 
     }
@@ -267,6 +347,7 @@ public class SignUp extends javax.swing.JFrame {
         cbxSex.setSelectedIndex(0);
         dpBirthDate.setDate(null);
         txtPhoneNumber.setText("");
+        txtAddress.setText("");
         txtSecurityQuestion.setText("");
         txtAnswer.setText("");
         btnSave.setEnabled(false);
@@ -318,6 +399,7 @@ public class SignUp extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser dpBirthDate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -327,6 +409,7 @@ public class SignUp extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JTextField txtAddress;
     private javax.swing.JTextField txtAnswer;
     private javax.swing.JPasswordField txtConfirmPassword;
     private javax.swing.JTextField txtEmail;
@@ -334,6 +417,5 @@ public class SignUp extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtPhoneNumber;
     private javax.swing.JTextField txtSecurityQuestion;
-    private javax.swing.JTextField txtSecurityQuestion1;
     // End of variables declaration//GEN-END:variables
 }

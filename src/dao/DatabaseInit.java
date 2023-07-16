@@ -32,6 +32,7 @@ public class DatabaseInit {
                 Sex VARCHAR(10) NOT NULL,
                 BirthDate DATE,
                 PhoneNumber VARCHAR(12),
+                Address VARCHAR(100),
                 SecurityQuestion VARCHAR(200) NOT NULL,
                 Answer VARCHAR(200) NOT NULL,
                 CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -66,7 +67,7 @@ public class DatabaseInit {
             CREATE TABLE DeliveryInfo (
                 Id INT PRIMARY KEY IDENTITY(1,1),
                 UserId INT NOT NULL,
-                RecipientName VARCHAR(200) NOT NULL,
+                RecipientName VARCHAR(100) NOT NULL,
                 PhoneNumber VARCHAR(12) NOT NULL,
                 Address VARCHAR(100) NOT NULL,
                 FOREIGN KEY (UserId) REFERENCES [User](Id) ON DELETE CASCADE
@@ -338,6 +339,14 @@ public class DatabaseInit {
             WHERE u.Rank >= v.MinRank;
             """;
     
+    private static final String defaultDeliveryInfoTrigger = 
+            """
+            CREATE TRIGGER tg_DefaultDeliveryInfo ON [User] FOR INSERT
+            AS
+            INSERT INTO DeliveryInfo (UserId, RecipientName, PhoneNumber, Address)
+            SELECT Id, FullName, PhoneNumber, Address FROM inserted;
+            """;
+    
     public static void main(String[] args) {
         try {
 //            String userTable = " CREATE TABLE [user] " + "( id INT IDENTITY(1,1) PRIMARY KEY," + "  name VARCHAR(200),"
@@ -377,6 +386,7 @@ public class DatabaseInit {
             DbOperations.updateData(voucherTable, "");
             DbOperations.updateData(voucherUsageTable, "");
             DbOperations.updateData(cartItemTable, "Tables created successfully");
+            DbOperations.updateData(defaultDeliveryInfoTrigger, "");
             DbOperations.updateData(altRankTrigger, "");
             DbOperations.updateData(delCategoryTrigger, "");
             DbOperations.updateData(incUserPointTrigger, "");

@@ -28,6 +28,7 @@ public class UserDao {
             user.setSex(rs.getString("Sex"));
             user.setBirthDate(rs.getDate("BirthDate").toLocalDate());
             user.setPhoneNumber(rs.getString("PhoneNumber"));
+            user.setAddress(rs.getString("Address"));
             user.setSecurityQuestion(rs.getString("SecurityQuestion"));
             user.setAnswer(rs.getString("Answer"));
             user.setCreatedAt(rs.getTimestamp("CreatedAt").toLocalDateTime());
@@ -73,8 +74,8 @@ public class UserDao {
     }
 
     public void create(User user) {
-        String query = "INSERT INTO [User] (Email, Password, FullName, Sex, BirthDate, PhoneNumber, SecurityQuestion, Answer) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO [User] (Email, Password, FullName, Sex, BirthDate, PhoneNumber, Address, SecurityQuestion, Answer) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         Object[] args = {
             user.getEmail(),
             user.getPassword(),
@@ -82,6 +83,7 @@ public class UserDao {
             user.getSex(),
             user.getBirthDate().toString(),
             user.getPhoneNumber(),
+            user.getAddress(),
             user.getSecurityQuestion(),
             user.getAnswer()
         };

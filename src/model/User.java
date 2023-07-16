@@ -22,6 +22,7 @@ public class User {
     private String sex;
     private LocalDate birthDate;
     private String phoneNumber;
+    private String address;
     private String securityQuestion;
     private String answer;
     private LocalDateTime createdAt;
