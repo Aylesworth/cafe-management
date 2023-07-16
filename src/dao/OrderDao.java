@@ -28,13 +28,14 @@ public class OrderDao {
         return orderDao;
     }
 
-    public List<Order> getOrders(LocalDate fromDate, LocalDate toDate) {
+    public List<Order> getOrders(int userId, LocalDate fromDate, LocalDate toDate) {
         try {
             List<Order> orders = new ArrayList<>();
 
             String query = null;
+            Object[] args = null;
             if (fromDate != null && toDate != null) {
-                query = "SELECT * FROM [Order] WHERE CONVERT(DATE, CreatedAt) BETWEEN ? AND ? ORDER BY CreatedAt ASC";
+                query = "SELECT * FROM [Order] WHERE CONVERT(DATE, CreatedAt) BETWEEN ? AND ? ";
             } else {
                 if (fromDate == null) {
                     fromDate = LocalDate.of(2000, 1, 1);
@@ -42,9 +43,15 @@ public class OrderDao {
                 if (toDate == null) {
                     toDate = LocalDate.now();
                 }
-                query = "SELECT TOP 30 * FROM [Order] WHERE CONVERT(DATE, CreatedAt) BETWEEN ? AND ? ORDER BY CreatedAt ASC";
+                query = "SELECT TOP 30 * FROM [Order] WHERE CONVERT(DATE, CreatedAt) BETWEEN ? AND ? ";
             }
-            Object[] args = {fromDate.toString(), toDate.toString()};
+            if (userId != -1) {
+                query += "AND UserId = ? ";
+                args = new Object[]{fromDate.toString(), toDate.toString(), userId};
+            } else {
+                args = new Object[]{fromDate.toString(), toDate.toString()};
+            }
+            query += "ORDER BY CreatedAt ASC";
             ResultSet rs = DbOperations.getData(query, args);
             while (rs.next()) {
                 Order order = new Order();

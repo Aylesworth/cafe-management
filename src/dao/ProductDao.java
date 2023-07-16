@@ -7,9 +7,7 @@ package dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.swing.JOptionPane;
 import model.Category;
 import model.Product;
@@ -58,19 +56,22 @@ public class ProductDao {
 
     public List<Product> getAll() {
         List<Product> products = new ArrayList<>();
-        Map<Integer, Category> categories = new HashMap<>();
-        CategoryDao.getInstance().getAllRecords().forEach(category -> {
-            categories.put(category.getId(), category);
-        });
+//        Map<Integer, Category> categories = new HashMap<>();
+//        CategoryDao.getInstance().getAllRecords().forEach(category -> {
+//            categories.put(category.getId(), category);
+//        });
         try {
             ResultSet rs = DbOperations.getData(
-                    "SELECT * FROM Product"
+                    "SELECT p.Id AS Id, p.Name AS ProductName, p.Price AS Price, c.Name AS CategoryName"
+                    + " FROM Product p JOIN Category c ON c.Id = p.CategoryId"
             );
             while (rs.next()) {
                 Product product = new Product();
                 product.setId(rs.getInt("Id"));
-                product.setName(rs.getString("Name"));
-                product.setCategory(categories.get(rs.getInt("CategoryId")));
+                product.setName(rs.getString("ProductName"));
+                Category category = new Category();
+                category.setName(rs.getString("CategoryName"));
+                product.setCategory(category);
                 product.setPrice(rs.getDouble("Price"));
                 products.add(product);
                 System.out.println(product);

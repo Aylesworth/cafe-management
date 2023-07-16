@@ -21,14 +21,21 @@ import model.Status;
  *
  * @author Dungpc
  */
-public class ManageOrder extends javax.swing.JFrame {
+public class ViewOrManageOrders extends javax.swing.JFrame {
 
     /**
      * Creates new form ManageOrder
      */
-    public ManageOrder() {
-        initComponents();
+    public ViewOrManageOrders() {
+        this(-1);
     }
+
+    public ViewOrManageOrders(int userId) {
+        initComponents();
+        this.userId = userId;
+    }
+
+    private int userId;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -52,6 +59,7 @@ public class ManageOrder extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         dpFrom = new com.toedter.calendar.JDateChooser();
         jButton3 = new javax.swing.JButton();
+        btnDetails = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -101,13 +109,13 @@ public class ManageOrder extends javax.swing.JFrame {
 
         lblStatus.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblStatus.setText("Change status");
-        getContentPane().add(lblStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 570, -1, -1));
+        getContentPane().add(lblStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 600, -1, -1));
 
         cbxShipper.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        getContentPane().add(cbxShipper, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 530, 182, -1));
+        getContentPane().add(cbxShipper, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 560, 182, -1));
 
         cbxStatus.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        getContentPane().add(cbxStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 570, 182, -1));
+        getContentPane().add(cbxStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 600, 182, -1));
 
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnUpdate.setText("Update");
@@ -116,7 +124,7 @@ public class ManageOrder extends javax.swing.JFrame {
                 btnUpdateActionPerformed(evt);
             }
         });
-        getContentPane().add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 630, 144, 56));
+        getContentPane().add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 640, 144, 40));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setText("Manage Order");
@@ -131,7 +139,7 @@ public class ManageOrder extends javax.swing.JFrame {
 
         lblShipper.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblShipper.setText("Set shipper");
-        getContentPane().add(lblShipper, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 530, -1, -1));
+        getContentPane().add(lblShipper, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 560, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setText("From");
@@ -151,6 +159,15 @@ public class ManageOrder extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1310, 10, -1, -1));
+
+        btnDetails.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnDetails.setText("View Details");
+        btnDetails.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDetailsActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 500, 144, 40));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/images/full-page-background.PNG"))); // NOI18N
         jLabel4.setText("jLabel4");
@@ -215,21 +232,26 @@ public class ManageOrder extends javax.swing.JFrame {
     }//GEN-LAST:event_dpToPropertyChange
 
     private void tblOrdersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblOrdersMouseClicked
-        String status = (String) tblOrders.getValueAt(tblOrders.getSelectedRow(), 5);
-        cbxStatus.setSelectedItem(statusList.stream().filter(s -> s.getValue().equals(status)).findFirst().get());
 
-        String shipper = (String) tblOrders.getValueAt(tblOrders.getSelectedRow(), 4);
-        if (shipper.equals("(Not yet assigned)")) {
-            cbxShipper.setSelectedIndex(0);
-        } else {
-            cbxShipper.setSelectedItem(shipperList.stream().filter(s -> (s.getFullName() + " (ID: " + s.getId() + ")").equals(shipper)).findFirst().get());
+        btnDetails.setVisible(true);
+
+        if (userId == -1) {
+            String status = (String) tblOrders.getValueAt(tblOrders.getSelectedRow(), 5);
+            cbxStatus.setSelectedItem(statusList.stream().filter(s -> s.getValue().equals(status)).findFirst().get());
+
+            String shipper = (String) tblOrders.getValueAt(tblOrders.getSelectedRow(), 4);
+            if (shipper.equals("(Not yet assigned)")) {
+                cbxShipper.setSelectedIndex(0);
+            } else {
+                cbxShipper.setSelectedItem(shipperList.stream().filter(s -> (s.getFullName() + " (ID: " + s.getId() + ")").equals(shipper)).findFirst().get());
+            }
+
+            lblShipper.setVisible(true);
+            lblStatus.setVisible(true);
+            cbxShipper.setVisible(true);
+            cbxStatus.setVisible(true);
+            btnUpdate.setVisible(true);
         }
-
-        lblShipper.setVisible(true);
-        lblStatus.setVisible(true);
-        cbxShipper.setVisible(true);
-        cbxStatus.setVisible(true);
-        btnUpdate.setVisible(true);
     }//GEN-LAST:event_tblOrdersMouseClicked
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -248,8 +270,14 @@ public class ManageOrder extends javax.swing.JFrame {
         setVisible(false);
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void btnDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailsActionPerformed
+        int id = (Integer) tblOrders.getValueAt(tblOrders.getSelectedRow(), 0);
+        new ViewOrderDetails(id).setVisible(true);
+    }//GEN-LAST:event_btnDetailsActionPerformed
+
     private void loadOrders() {
 
+        btnDetails.setVisible(false);
         lblShipper.setVisible(false);
         lblStatus.setVisible(false);
         cbxShipper.setVisible(false);
@@ -259,7 +287,7 @@ public class ManageOrder extends javax.swing.JFrame {
         DefaultTableModel tableModel = (DefaultTableModel) tblOrders.getModel();
         tableModel.setRowCount(0);
 
-        OrderDao.getInstance().getOrders(Utils.toLocalDate(dpFrom.getDate()), Utils.toLocalDate(dpTo.getDate()))
+        OrderDao.getInstance().getOrders(userId, Utils.toLocalDate(dpFrom.getDate()), Utils.toLocalDate(dpTo.getDate()))
                 .forEach(order -> tableModel.addRow(new Object[]{
             order.getId(),
             order.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm")),
@@ -287,25 +315,27 @@ public class ManageOrder extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ManageOrder.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewOrManageOrders.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ManageOrder.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewOrManageOrders.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ManageOrder.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewOrManageOrders.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ManageOrder.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewOrManageOrders.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ManageOrder().setVisible(true);
+                new ViewOrManageOrders().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDetails;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<Staff> cbxShipper;
     private javax.swing.JComboBox<Status> cbxStatus;

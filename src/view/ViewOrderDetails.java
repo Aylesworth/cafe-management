@@ -5,7 +5,10 @@
 package view;
 
 import dao.OrderDao;
+import java.io.File;
 import java.time.format.DateTimeFormatter;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import model.DeliveryInfo;
 import model.Order;
@@ -145,46 +148,51 @@ public class ViewOrderDetails extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Total Cost:");
-        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 540, -1, -1));
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 520, -1, -1));
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("Ship Cost: ");
-        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 580, 81, -1));
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 560, 81, -1));
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("Discount: ");
-        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 620, 81, -1));
+        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 600, 81, -1));
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(255, 255, 255));
         jLabel14.setText("Final Cost:");
-        getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 660, 81, -1));
+        getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 640, 81, -1));
 
         lblTotalCost.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblTotalCost.setForeground(new java.awt.Color(255, 255, 255));
         lblTotalCost.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        getContentPane().add(lblTotalCost, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 540, 120, 20));
+        getContentPane().add(lblTotalCost, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 520, 120, 20));
 
         lblShipCost.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblShipCost.setForeground(new java.awt.Color(255, 255, 255));
         lblShipCost.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        getContentPane().add(lblShipCost, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 580, 120, 20));
+        getContentPane().add(lblShipCost, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 560, 120, 20));
 
         lblDiscount.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblDiscount.setForeground(new java.awt.Color(255, 255, 255));
         lblDiscount.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        getContentPane().add(lblDiscount, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 620, 120, 20));
+        getContentPane().add(lblDiscount, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 600, 120, 20));
 
         lblFinalCost.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblFinalCost.setForeground(new java.awt.Color(255, 255, 255));
         lblFinalCost.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        getContentPane().add(lblFinalCost, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 660, 120, 20));
+        getContentPane().add(lblFinalCost, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 640, 120, 20));
 
         btnInvoice.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnInvoice.setText("Export Invoice");
-        getContentPane().add(btnInvoice, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 520, -1, 41));
+        btnInvoice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInvoiceActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnInvoice, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 680, -1, 41));
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/close.png"))); // NOI18N
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -234,6 +242,21 @@ public class ViewOrderDetails extends javax.swing.JFrame {
             tableModel.addRow(new Object[]{tableModel.getRowCount() + 1, item.getProduct().getName(), item.getUnitPrice(), item.getQuantity(), item.getTotalAmount()});
         });
     }//GEN-LAST:event_formComponentShown
+
+    private void btnInvoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInvoiceActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setSelectedFile(new File("order-invoice-%d.pdf".formatted(orderId))); 
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF Files", "pdf");
+        fileChooser.setFileFilter(filter); 
+        
+        int option = fileChooser.showSaveDialog(this);
+        if (option == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            String filePath = selectedFile.getAbsolutePath();
+            // Perform further processing with the file path
+            System.out.println("Selected file path: " + filePath);
+        }
+    }//GEN-LAST:event_btnInvoiceActionPerformed
 
     /**
      * @param args the command line arguments
