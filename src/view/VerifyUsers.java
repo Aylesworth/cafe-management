@@ -29,7 +29,7 @@ public class VerifyUsers extends javax.swing.JFrame {
     public void getAllRecords(String email) {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
-        List<User> users = userDao.getAll(email);
+        List<User> users = userDao.findByEmail(email);
         users.stream()
                 .filter(u -> !u.getEmail().equals("admin"))
                 .forEach(u -> model.addRow(new Object[]{

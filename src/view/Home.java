@@ -25,7 +25,7 @@ public class Home extends javax.swing.JFrame {
     public Home(String userEmail) {
         initComponents();
         email = userEmail;
-        if (!email.equals("admin")) {
+        if (!email.equals("admin@email.com")) {
             btnCategory.setVisible(false);
             btnNewProduct.setVisible(false);
             btnViewEditDeleteProduct.setVisible(false);

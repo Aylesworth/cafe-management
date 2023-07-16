@@ -41,8 +41,8 @@ public class DatabaseInit {
                 Rank INT DEFAULT 1,
                 FOREIGN KEY (Rank) REFERENCES Rank(Id)
             );
-            INSERT INTO [User] (Email, Password, FullName, Sex, BirthDate, PhoneNumber, SecurityQuestion, Answer, IsApproved)
-            VALUES ('admin', 'admin', 'Admin', 'Null', '1900-01-01', '0123456789', 'Why is dark humor like food?', 'Because not everybody gets it', 1);
+            INSERT INTO [User] (Email, Password, FullName, Sex, BirthDate, PhoneNumber, Address, SecurityQuestion, Answer, IsApproved)
+            VALUES ('admin@email.com', 'admin', 'Admin', 'Null', '1900-01-01', '0123456789', 'None', 'Why is dark humor like food?', 'Because not everybody gets it', 1);
             """;
 
     private static final String rankTable
@@ -284,7 +284,7 @@ public class DatabaseInit {
                 Id INT PRIMARY KEY,
                 Value VARCHAR(50)
             );
-            INSERT INTO Status (Id, Value) VALUES (1, 'Received'), (2, 'Delivering'), (3, 'Delivered');
+            INSERT INTO Status (Id, Value) VALUES (1, 'Pending'), (2, 'Accepted'), (3, 'Delivering'), (4, 'Delivered');
             """;
 
     private static final String altRankTrigger = 

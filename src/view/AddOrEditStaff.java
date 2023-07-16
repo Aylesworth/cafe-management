@@ -65,9 +65,7 @@ public class AddOrEditStaff extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(744, 573));
         setMinimumSize(new java.awt.Dimension(744, 573));
-        setPreferredSize(new java.awt.Dimension(744, 573));
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
@@ -166,7 +164,7 @@ public class AddOrEditStaff extends javax.swing.JFrame {
                 dpStartPropertyChange(evt);
             }
         });
-        getContentPane().add(dpStart, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 380, 300, -1));
+        getContentPane().add(dpStart, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 380, 300, 30));
 
         dpBirthDate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         dpBirthDate.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
@@ -174,7 +172,7 @@ public class AddOrEditStaff extends javax.swing.JFrame {
                 dpBirthDatePropertyChange(evt);
             }
         });
-        getContentPane().add(dpBirthDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 180, 300, -1));
+        getContentPane().add(dpBirthDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 180, 300, 30));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
@@ -187,7 +185,7 @@ public class AddOrEditStaff extends javax.swing.JFrame {
                 dpEndPropertyChange(evt);
             }
         });
-        getContentPane().add(dpEnd, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 430, 300, -1));
+        getContentPane().add(dpEnd, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 430, 300, 30));
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/close.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {

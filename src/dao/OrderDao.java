@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import model.Order;
+import model.OrderDetails;
 import model.Status;
 
 /**
@@ -51,11 +52,48 @@ public class OrderDao {
                 order.setUser(UserDao.getInstance().getById(rs.getInt("UserId")));
                 order.setCreatedAt(rs.getTimestamp("CreatedAt").toLocalDateTime());
                 order.setFinalCost(rs.getDouble("FinalCost"));
-                //TODO: order.setShipper
+                order.setShipper(StaffDao.getInstance().getById(rs.getInt("ShipperId")));
                 order.setStatus(getStatusById(rs.getInt("StatusId")));
                 orders.add(order);
             }
             return orders;
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);
+            return null;
+        }
+    }
+
+    public Order getById(int id) {
+        String query = "SELECT * FROM [Order] WHERE Id = ?";
+        ResultSet rs = DbOperations.getData(query, new Object[]{id});
+        try {
+            Order order = null;
+            if (rs.next()) {
+                order = new Order();
+                order.setId(id);
+                order.setUser(UserDao.getInstance().getById(rs.getInt("UserId")));
+                order.setCreatedAt(rs.getTimestamp("CreatedAt").toLocalDateTime());
+                order.setTotalCost(rs.getDouble("TotalCost"));
+                order.setShipCost(rs.getDouble("ShipCost"));
+                order.setDiscount(rs.getDouble("Discount"));
+                order.setFinalCost(rs.getDouble("FinalCost"));
+                order.setDeliveryInfo(DeliveryInfoDao.getInstance().getById(rs.getInt("DeliveryInfoId")));
+                order.setShipper(StaffDao.getInstance().getById(rs.getInt("ShipperId")));
+                order.setStatus(getStatusById(rs.getInt("StatusId")));
+                order.setItems(new ArrayList<>());
+
+                rs = DbOperations.getData("SELECT * FROM OrderDetails WHERE OrderId = ?", new Object[]{id});
+                while (rs.next()) {
+                    OrderDetails orderDetails = new OrderDetails();
+                    orderDetails.setId(rs.getInt("Id"));
+                    orderDetails.setProduct(ProductDao.getInstance().getById(rs.getInt("ProductId")));
+                    orderDetails.setQuantity(rs.getInt("Quantity"));
+                    orderDetails.setUnitPrice(rs.getDouble("UnitPrice"));
+                    orderDetails.setTotalAmount(rs.getDouble("TotalAmount"));
+                    order.getItems().add(orderDetails);
+                }
+            }
+            return order;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex);
             return null;

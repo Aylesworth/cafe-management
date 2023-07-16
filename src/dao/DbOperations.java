@@ -24,7 +24,7 @@ public class DbOperations {
 
     public static int updateData(String query, Object[] args, String message) {
         try {
-            Connection con = ConnectionProvider.getCon();
+            Connection con = ConnectionProvider.getConnection();
             PreparedStatement st = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
             for (int i = 0; i < args.length; i++) {
@@ -58,7 +58,7 @@ public class DbOperations {
 
     public static ResultSet getData(String query, Object[] args) {
         try {
-            Connection con = ConnectionProvider.getCon();
+            Connection con = ConnectionProvider.getConnection();
             PreparedStatement st = con.prepareStatement(query);
 
             for (int i = 0; i < args.length; i++) {

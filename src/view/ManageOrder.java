@@ -6,10 +6,9 @@ package view;
 
 import common.Utils;
 import dao.OrderDao;
+import dao.StaffDao;
 import java.awt.Component;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
@@ -52,10 +51,13 @@ public class ManageOrder extends javax.swing.JFrame {
         lblShipper = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         dpFrom = new com.toedter.calendar.JDateChooser();
+        jButton3 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(1366, 768));
         setMinimumSize(new java.awt.Dimension(1366, 768));
+        setPreferredSize(new java.awt.Dimension(1366, 768));
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
@@ -142,6 +144,14 @@ public class ManageOrder extends javax.swing.JFrame {
         });
         getContentPane().add(dpFrom, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 40, 200, -1));
 
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/close.png"))); // NOI18N
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1310, 10, -1, -1));
+
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/images/full-page-background.PNG"))); // NOI18N
         jLabel4.setText("jLabel4");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(-2, -52, 1420, 870));
@@ -174,7 +184,8 @@ public class ManageOrder extends javax.swing.JFrame {
         Staff staff = new Staff();
         staff.setId(0);
         cbxShipper.addItem(staff);
-        shipperList = new ArrayList<>();
+        shipperList = StaffDao.getInstance().getShippers();
+        shipperList.forEach(cbxShipper::addItem);
 
         cbxStatus.setRenderer(new DefaultListCellRenderer() {
             @Override
@@ -231,6 +242,11 @@ public class ManageOrder extends javax.swing.JFrame {
         OrderDao.getInstance().updateOrder(order);
         loadOrders();
     }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        setVisible(false);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void loadOrders() {
 
@@ -295,6 +311,7 @@ public class ManageOrder extends javax.swing.JFrame {
     private javax.swing.JComboBox<Status> cbxStatus;
     private com.toedter.calendar.JDateChooser dpFrom;
     private com.toedter.calendar.JDateChooser dpTo;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

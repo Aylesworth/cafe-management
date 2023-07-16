@@ -46,6 +46,26 @@ public class DeliveryInfoDao {
         }
     }
 
+    public DeliveryInfo getById(int id) {
+        String query = "SELECT * FROM DeliveryInfo WHERE Id = ?";
+        ResultSet rs = DbOperations.getData(query, new Object[]{id});
+        try {
+            DeliveryInfo deliveryInfo = null;
+            if (rs.next()) {
+                deliveryInfo = new DeliveryInfo();
+                deliveryInfo.setId(rs.getInt("Id"));
+                deliveryInfo.setRecipientName(rs.getString("RecipientName"));
+                deliveryInfo.setPhoneNumber(rs.getString("PhoneNumber"));
+                deliveryInfo.setAddress(rs.getString("Address"));
+                deliveryInfo.setUserId(rs.getInt("UserId"));
+            }
+            return deliveryInfo;
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);
+            return null;
+        }
+    }
+
     public void add(DeliveryInfo info) {
         String query = "INSERT INTO DeliveryInfo (UserId, RecipientName, PhoneNumber, Address) VALUES (?, ?, ?, ?)";
         Object[] args = {info.getUserId(), info.getRecipientName(), info.getPhoneNumber(), info.getAddress()};

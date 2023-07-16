@@ -71,6 +71,23 @@ public class StaffDao {
             return null;
         }
     }
+    
+        public List<Staff> getShippers() {
+        ResultSet rs = DbOperations.getData("SELECT * FROM Staff "
+                + "WHERE Position = 'Shipper' "
+                + "AND StartDate <= GETDATE() AND (EndDate IS NULL OR EndDate >= GETDATE()) "
+                + "ORDER BY FullName");
+        List<Staff> staffList = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                staffList.add(map(rs));
+            }
+            return staffList;
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);
+            return null;
+        }
+    }
 
     public Staff getById(int id) {
         ResultSet rs = DbOperations.getData("SELECT * FROM Staff WHERE Id = ?", new Object[]{id});

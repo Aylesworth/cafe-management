@@ -90,6 +90,21 @@ public class UserDao {
 
         DbOperations.updateData(query, args, "Registered succcessfully! Please wait for admin approval.");
     }
+    
+    public void update(User user) {
+        String query = "UPDATE [User] SET FullName = ?, Sex = ?, BirthDate = ?, Email = ?, PhoneNumber = ?, Address = ? WHERE Id = ?";
+        Object[] args = {
+            user.getFullName(),
+            user.getSex(),
+            user.getBirthDate().toString(),
+            user.getEmail(),
+            user.getPhoneNumber(),
+            user.getAddress(),
+            user.getId()
+        };
+        
+        DbOperations.updateData(query, args, "User profile updated successfully!");
+    } 
 
     public User login(String email, String password) {
         User user = null;
@@ -131,7 +146,7 @@ public class UserDao {
         DbOperations.updateData(query, args, "Password changed succcessfully!");
     }
 
-    public List<User> getAll(String email) {
+    public List<User> findByEmail(String email) {
         List<User> users = new ArrayList<>();
 
         String query = "SELECT * FROM [User] WHERE Email LIKE ?";

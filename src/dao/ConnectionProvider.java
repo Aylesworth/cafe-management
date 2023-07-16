@@ -15,19 +15,21 @@ import javax.swing.JOptionPane;
  * @author Dungpc
  */
 public class ConnectionProvider {
-	public static Connection getCon() {
-		String url = "jdbc:sqlserver://aylesw-server.database.windows.net:1433;databaseName=database-1";
-		String user = "aylesw";
-		String password = "Ducanh2003@";
-		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-			Connection con = DriverManager.getConnection(url, user, password);
-			return con;
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
-			return null;
-		}
 
-	}
+    public static Connection getConnection() {
+        String url = "jdbc:sqlserver://aylesw-server.database.windows.net:1433;databaseName=database-1";
+//        String url = "jdbc:sqlserver://localhost:1433;databaseName=database-1;sslProtocol=TLSv1;encrypt=true;trustServerCertificate=true";
+        String user = "aylesw";
+        String password = "Ducanh2003@";
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection con = DriverManager.getConnection(url, user, password);
+            return con;
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e, "Message", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+
+    }
 }

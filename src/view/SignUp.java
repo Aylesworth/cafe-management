@@ -17,8 +17,8 @@ import model.User;
  */
 public class SignUp extends javax.swing.JFrame {
 
-    public String emailPattern = "^[a-zA-Z0-9]+[@][a-zA-Z0-9]+([.][a-zA-Z0-9]+)+$";
-    public String phoneNumberPattern = "^[0-9]{10}$";
+    private String emailPattern = "^[a-zA-Z0-9]+[@][a-zA-Z0-9]+([.][a-zA-Z0-9]+)+$";
+    private String phoneNumberPattern = "^[0-9]{10}$";
 
     /**
      * Creates new form SignUp2
