@@ -86,11 +86,11 @@ public class AddDeliveryInfo extends javax.swing.JFrame {
                 btnSaveActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 250, -1, -1));
+        getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 250, -1, -1));
 
         btnClear.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/clear.png"))); // NOI18N
-        btnClear.setText("Clear");
+        btnClear.setText("CLEAR");
         btnClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnClearActionPerformed(evt);
@@ -109,7 +109,7 @@ public class AddDeliveryInfo extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/new product.png"))); // NOI18N
-        jLabel1.setText("New Delivery Info");
+        jLabel1.setText("NEW DELIVERY INFO");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 15, -1, -1));
 
         txtRecipientName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N

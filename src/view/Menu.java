@@ -264,7 +264,7 @@ public class Menu extends javax.swing.JFrame {
         getContentPane().add(lblTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 340, 96, -1));
 
         btnPlaceOrder.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnPlaceOrder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/images/place order.png"))); // NOI18N
+        btnPlaceOrder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/place order.png"))); // NOI18N
         btnPlaceOrder.setText("Place Order");
         btnPlaceOrder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

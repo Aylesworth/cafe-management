@@ -76,7 +76,7 @@ public class Home extends javax.swing.JFrame {
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 40, -1, -1));
 
         btnMyOrders.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnMyOrders.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/view edit delete product.png"))); // NOI18N
+        btnMyOrders.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/order.png"))); // NOI18N
         btnMyOrders.setText("My Orders");
         btnMyOrders.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -86,7 +86,7 @@ public class Home extends javax.swing.JFrame {
         getContentPane().add(btnMyOrders, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 120, -1, -1));
 
         btnViewMenu.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnViewMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/place order.png"))); // NOI18N
+        btnViewMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/menu.png"))); // NOI18N
         btnViewMenu.setText("View Menu");
         btnViewMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -166,7 +166,7 @@ public class Home extends javax.swing.JFrame {
         getContentPane().add(btnChangePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 40, -1, -1));
 
         btnOrder.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnOrder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/category.png"))); // NOI18N
+        btnOrder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/order.png"))); // NOI18N
         btnOrder.setText("Manage Order");
         btnOrder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -196,7 +196,7 @@ public class Home extends javax.swing.JFrame {
         getContentPane().add(btnStaff, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 690, -1, -1));
 
         btnProfile.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnProfile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/place order.png"))); // NOI18N
+        btnProfile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/profile.png"))); // NOI18N
         btnProfile.setText("My Profile");
         btnProfile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

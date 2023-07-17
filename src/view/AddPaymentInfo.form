@@ -85,7 +85,7 @@
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/images/new product.png"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="New Payment Info"/>
+        <Property name="text" type="java.lang.String" value="NEW PAYMENT INFO"/>
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">

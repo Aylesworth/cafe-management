@@ -62,10 +62,13 @@ public class AddOrEditStaff extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         dpEnd = new com.toedter.calendar.JDateChooser();
         jButton1 = new javax.swing.JButton();
+        btnAction1 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(744, 573));
         setMinimumSize(new java.awt.Dimension(744, 573));
+        setPreferredSize(new java.awt.Dimension(744, 573));
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
@@ -74,10 +77,11 @@ public class AddOrEditStaff extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblTitle.setBackground(new java.awt.Color(255, 51, 51));
-        lblTitle.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        lblTitle.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblTitle.setForeground(new java.awt.Color(255, 255, 255));
+        lblTitle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/new product.png"))); // NOI18N
         lblTitle.setText("ADD NEW STAFF");
-        getContentPane().add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 20, -1, -1));
+        getContentPane().add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -149,14 +153,15 @@ public class AddOrEditStaff extends javax.swing.JFrame {
         cbxPosition.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         getContentPane().add(cbxPosition, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 280, 299, 30));
 
-        btnAction.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnAction.setText("Add");
+        btnAction.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnAction.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save.png"))); // NOI18N
+        btnAction.setText("SAVE");
         btnAction.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActionActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAction, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 480, 123, 40));
+        getContentPane().add(btnAction, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 480, 100, 30));
 
         dpStart.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         dpStart.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
@@ -193,7 +198,17 @@ public class AddOrEditStaff extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 10, -1, -1));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 10, -1, -1));
+
+        btnAction1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnAction1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/clear.png"))); // NOI18N
+        btnAction1.setText("CLEAR");
+        btnAction1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAction1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnAction1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 480, 100, 30));
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/full-page-background.PNG"))); // NOI18N
         jLabel9.setText("jLabel9");
@@ -212,7 +227,6 @@ public class AddOrEditStaff extends javax.swing.JFrame {
 
         if (staffId != -1) {
             lblTitle.setText("EDIT STAFF");
-            btnAction.setText("Update");
 
             Staff staff = staffDao.getById(staffId);
             txtName.setText(staff.getFullName());
@@ -279,6 +293,18 @@ public class AddOrEditStaff extends javax.swing.JFrame {
         setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btnAction1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAction1ActionPerformed
+        txtName.setText("");
+        cbxSex.setSelectedIndex(0);
+        dpBirthDate.setDate(null);
+        txtPhone.setText("");
+        cbxPosition.setSelectedIndex(0);
+        txtSalary.setText("");
+        dpStart.setDate(null);
+        dpEnd.setDate(null);
+        validateFields();
+    }//GEN-LAST:event_btnAction1ActionPerformed
+
     private void validateFields() {
         LocalDate birthDate = Utils.toLocalDate(dpBirthDate.getDate());
         LocalDate startDate = Utils.toLocalDate(dpStart.getDate());
@@ -340,6 +366,7 @@ public class AddOrEditStaff extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAction;
+    private javax.swing.JButton btnAction1;
     private javax.swing.JComboBox<String> cbxPosition;
     private javax.swing.JComboBox<String> cbxSex;
     private com.toedter.calendar.JDateChooser dpBirthDate;

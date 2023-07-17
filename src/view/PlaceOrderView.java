@@ -377,7 +377,7 @@ public class PlaceOrderView extends javax.swing.JFrame {
         });
         getContentPane().add(btnDeselect, new org.netbeans.lib.awtextra.AbsoluteConstraints(1150, 530, -1, -1));
 
-        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/images/full-page-background.PNG"))); // NOI18N
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/full-page-background.PNG"))); // NOI18N
         jLabel15.setText("jLabel15");
         jLabel15.setMaximumSize(new java.awt.Dimension(1366, 768));
         jLabel15.setMinimumSize(new java.awt.Dimension(1366, 768));

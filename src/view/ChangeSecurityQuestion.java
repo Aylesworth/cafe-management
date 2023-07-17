@@ -30,7 +30,7 @@ public class ChangeSecurityQuestion extends javax.swing.JFrame {
         btnUpdate.setEnabled(false);
     }
     
-    public void validateField(){
+    public void validateFields(){
         String password = txtPassword.getText();
         String securityQuestion = txtNewSQ.getText();
         String answer = txtNewAns.getText();
@@ -75,10 +75,10 @@ public class ChangeSecurityQuestion extends javax.swing.JFrame {
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/change Security Question.png"))); // NOI18N
-        jLabel1.setText("ChangeSecurityQuestion");
+        jLabel1.setText("CHANGE SECURITY QUESTION");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/close.png"))); // NOI18N
@@ -89,15 +89,15 @@ public class ChangeSecurityQuestion extends javax.swing.JFrame {
         });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(668, 6, -1, -1));
 
-        jLabel2.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Old Security Question");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 83, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, -1, 30));
 
-        jLabel3.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("New Security Question");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 126, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, -1, -1));
 
         txtOldSQ.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -113,10 +113,10 @@ public class ChangeSecurityQuestion extends javax.swing.JFrame {
         });
         getContentPane().add(txtNewSQ, new org.netbeans.lib.awtextra.AbsoluteConstraints(283, 126, 286, -1));
 
-        jLabel4.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("New Answer");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 166, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 170, -1, -1));
 
         txtNewAns.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -125,31 +125,31 @@ public class ChangeSecurityQuestion extends javax.swing.JFrame {
         });
         getContentPane().add(txtNewAns, new org.netbeans.lib.awtextra.AbsoluteConstraints(283, 166, 286, -1));
 
-        jLabel5.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Password");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 206, -1, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 210, -1, -1));
         getContentPane().add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(283, 206, 286, -1));
 
-        btnUpdate.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        btnUpdate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save.png"))); // NOI18N
-        btnUpdate.setText("Update");
+        btnUpdate.setText("UPDATE");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateActionPerformed(evt);
             }
         });
-        getContentPane().add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(283, 246, -1, -1));
+        getContentPane().add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 250, -1, -1));
 
-        jButton3.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/clear.png"))); // NOI18N
-        jButton3.setText("Clear");
+        jButton3.setText("CLEAR");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(483, 246, -1, -1));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 250, -1, -1));
 
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/small-page-background.png"))); // NOI18N
@@ -165,15 +165,15 @@ public class ChangeSecurityQuestion extends javax.swing.JFrame {
     }//GEN-LAST:event_formComponentShown
 
     private void txtOldSQKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtOldSQKeyReleased
-        validateField();// TODO add your handling code here:
+        validateFields();// TODO add your handling code here:
     }//GEN-LAST:event_txtOldSQKeyReleased
 
     private void txtNewSQKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNewSQKeyReleased
-        validateField();// TODO add your handling code here:
+        validateFields();// TODO add your handling code here:
     }//GEN-LAST:event_txtNewSQKeyReleased
 
     private void txtNewAnsKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNewAnsKeyReleased
-        validateField();// TODO add your handling code here:
+        validateFields();// TODO add your handling code here:
     }//GEN-LAST:event_txtNewAnsKeyReleased
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed

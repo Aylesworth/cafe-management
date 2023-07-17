@@ -181,7 +181,7 @@ public class Login extends javax.swing.JFrame {
 
     private void btnForgotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForgotActionPerformed
         setVisible(false);
-        new ForgotPasswordPage().setVisible(true);
+        new NewForgotPasswordPage().setVisible(true);
     }//GEN-LAST:event_btnForgotActionPerformed
 
     private void btnSignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignupActionPerformed
