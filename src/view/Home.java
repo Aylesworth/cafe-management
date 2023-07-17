@@ -166,7 +166,7 @@ public class Home extends javax.swing.JFrame {
         getContentPane().add(btnChangePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 40, -1, -1));
 
         btnOrder.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnOrder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/order.png"))); // NOI18N
+        btnOrder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/manage-order.png"))); // NOI18N
         btnOrder.setText("Manage Order");
         btnOrder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

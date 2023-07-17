@@ -84,21 +84,11 @@ public class ProductDao {
     }
 
     public void update(Product product) {
-        try {
-            int categoryId = 0;
-            ResultSet rs = DbOperations.getData("SELECT Id FROM Category WHERE Name LIKE ?", new Object[]{product.getCategory()});
-
-            while (rs.next()) {
-                categoryId = rs.getInt("Id");
-            }
 
             String query = "UPDATE Product SET Name = ?, CategoryId = ?, Price = ? WHERE Id = ?";
-            Object[] args = {product.getName(), categoryId, product.getPrice(), product.getId()};
+            Object[] args = {product.getName(), product.getCategory().getId(), product.getPrice(), product.getId()};
 
             DbOperations.updateData(query, args, "Product updated successfully!");
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex);
-        }
     }
 
     public void delete(int id) {

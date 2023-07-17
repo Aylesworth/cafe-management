@@ -221,7 +221,7 @@
           <Font name="Tahoma" size="14" style="1"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/images/order.png"/>
+          <Image iconType="3" name="/images/manage-order.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Manage Order"/>
       </Properties>

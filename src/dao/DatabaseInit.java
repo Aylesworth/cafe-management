@@ -310,10 +310,11 @@ public class DatabaseInit {
             AS
             IF (SELECT COUNT(*) FROM Product WHERE CategoryId = (SELECT Id FROM deleted)) > 0
             BEGIN
-              IF (SELECT COUNT(*) FROM Category WHERE Name = 'None') = 0
-                      INSERT INTO Category (Name) VALUES ('None');
-              UPDATE Product SET CategoryId = (SELECT Id FROM Category WHERE Name = 'None')
-              WHERE CategoryId = (SELECT Id FROM deleted);
+                IF (SELECT COUNT(*) FROM Category WHERE Name = 'None') = 0
+                        INSERT INTO Category (Name) VALUES ('None');
+                UPDATE Product SET CategoryId = (SELECT Id FROM Category WHERE Name = 'None')
+                WHERE CategoryId = (SELECT Id FROM deleted);
+                DELETE FROM Category WHERE Id = (SELECT Id FROM deleted);
             END
             """;
     
@@ -386,11 +387,11 @@ public class DatabaseInit {
             DbOperations.updateData(voucherTable, "");
             DbOperations.updateData(voucherUsageTable, "");
             DbOperations.updateData(cartItemTable, "Tables created successfully");
-            DbOperations.updateData(defaultDeliveryInfoTrigger, "");
-            DbOperations.updateData(altRankTrigger, "");
-            DbOperations.updateData(delCategoryTrigger, "");
-            DbOperations.updateData(incUserPointTrigger, "");
-            DbOperations.updateData(giveVoucherTrigger, "Triggers created successfully");
+            DbOperations.updateData(defaultDeliveryInfoTrigger, "", false);
+            DbOperations.updateData(altRankTrigger, "", false);
+            DbOperations.updateData(delCategoryTrigger, "", false);
+            DbOperations.updateData(incUserPointTrigger, "", false);
+            DbOperations.updateData(giveVoucherTrigger, "Triggers created successfully", false);
             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);

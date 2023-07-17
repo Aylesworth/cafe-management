@@ -22,21 +22,32 @@ public class DbOperations {
         return updateData(query, new Object[]{}, message);
     }
 
+    public static int updateData(String query, String message, boolean returnGeneratedKeys) {
+        return updateData(query, new Object[]{}, message, returnGeneratedKeys);
+    }
+
     public static int updateData(String query, Object[] args, String message) {
+        return updateData(query, args, message, true);
+    }
+
+    public static int updateData(String query, Object[] args, String message, boolean returnGeneratedKeys) {
         try {
             Connection con = ConnectionProvider.getConnection();
-            PreparedStatement st = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement st = con.prepareStatement(query, returnGeneratedKeys ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS);
 
             for (int i = 0; i < args.length; i++) {
                 st.setObject(i + 1, args[i]);
             }
-
-            int id = -1;
+            
             int affectedRows = st.executeUpdate();
-            if (affectedRows > 0) {
-                ResultSet generatedKeys = st.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    id = generatedKeys.getInt(1);
+            
+            int id = -1;
+            if (returnGeneratedKeys) {
+                if (affectedRows > 0) {
+                    ResultSet generatedKeys = st.getGeneratedKeys();
+                    if (generatedKeys.next()) {
+                        id = generatedKeys.getInt(1);
+                    }
                 }
             }
 
