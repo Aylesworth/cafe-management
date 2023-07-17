@@ -4,10 +4,18 @@
  */
 package view;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import common.OpenPdf;
+import common.Utils;
 import dao.OrderDao;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import model.DeliveryInfo;
@@ -34,6 +42,8 @@ public class ViewOrderDetails extends javax.swing.JFrame {
         this();
         this.orderId = orderId;
     }
+
+    private Order order;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -66,6 +76,7 @@ public class ViewOrderDetails extends javax.swing.JFrame {
         lblFinalCost = new javax.swing.JLabel();
         btnInvoice = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -143,7 +154,7 @@ public class ViewOrderDetails extends javax.swing.JFrame {
             tblItems.getColumnModel().getColumn(0).setMaxWidth(100);
         }
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 260, 783, 250));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 260, 783, 240));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
@@ -185,7 +196,8 @@ public class ViewOrderDetails extends javax.swing.JFrame {
         lblFinalCost.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         getContentPane().add(lblFinalCost, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 640, 120, 20));
 
-        btnInvoice.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnInvoice.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnInvoice.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/generate bill _ print.png"))); // NOI18N
         btnInvoice.setText("Export Invoice");
         btnInvoice.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -202,6 +214,12 @@ public class ViewOrderDetails extends javax.swing.JFrame {
         });
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1310, 10, -1, -1));
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/order.png"))); // NOI18N
+        jLabel3.setText("Order Details");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
         jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/full-page-background.PNG"))); // NOI18N
         jLabel19.setText("jLabel19");
         getContentPane().add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(-5, -22, 1450, 810));
@@ -215,7 +233,7 @@ public class ViewOrderDetails extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-        Order order = OrderDao.getInstance().getById(orderId);
+        order = OrderDao.getInstance().getById(orderId);
         User user = order.getUser();
         DeliveryInfo deliveryInfo = order.getDeliveryInfo();
         Staff shipper = order.getShipper();
@@ -245,17 +263,68 @@ public class ViewOrderDetails extends javax.swing.JFrame {
 
     private void btnInvoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInvoiceActionPerformed
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setSelectedFile(new File("order-invoice-%d.pdf".formatted(orderId))); 
+        fileChooser.setSelectedFile(new File("order-invoice-%d.pdf".formatted(orderId)));
         FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF Files", "pdf");
-        fileChooser.setFileFilter(filter); 
-        
+        fileChooser.setFileFilter(filter);
+
+        String filePath;
         int option = fileChooser.showSaveDialog(this);
         if (option == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
-            String filePath = selectedFile.getAbsolutePath();
-            // Perform further processing with the file path
-            System.out.println("Selected file path: " + filePath);
+            filePath = selectedFile.getAbsolutePath();
+//            System.out.println("Selected file path: " + filePath);
+        } else {
+            return;
         }
+
+        Document doc = new Document();
+        try {
+            PdfWriter.getInstance(doc, new FileOutputStream(filePath));
+            doc.open();
+
+            Paragraph cafeName = new Paragraph("                                                        Cafe Shop\n");
+            doc.add(cafeName);
+
+            Paragraph starLine = new Paragraph("****************************************************************************************************************\n");
+            doc.add(starLine);
+
+            Paragraph info = new Paragraph("\tOrder ID: " + orderId
+                    + "\n\tCustomer name: " + order.getUser().getFullName()
+                    + "\n\tCreated at: " + Utils.formatTimestamp(order.getCreatedAt())
+                    + "\n\tTotal cost: $ " + order.getTotalCost()
+                    + "\n\tShipping cost: $ " + order.getShipCost()
+                    + "\n\tDiscount: - $ " + order.getDiscount()
+                    + "\n\tFinal cost: $ " + order.getFinalCost());
+            doc.add(info);
+            doc.add(starLine);
+
+            PdfPTable tb1 = new PdfPTable(5);
+            tb1.addCell("No.");
+            tb1.addCell("Product");
+            tb1.addCell("Unit price");
+            tb1.addCell("Quantity");
+            tb1.addCell("Subtotal");
+            for (int i = 0; i < tblItems.getRowCount(); i++) {
+                tb1.addCell(tblItems.getValueAt(i, 0).toString());
+                tb1.addCell(tblItems.getValueAt(i, 1).toString());
+                tb1.addCell("$ " + tblItems.getValueAt(i, 2).toString());
+                tb1.addCell(tblItems.getValueAt(i, 3).toString());
+                tb1.addCell("$ " + tblItems.getValueAt(i, 4).toString());
+            }
+            doc.add(tb1);
+            doc.add(starLine);
+
+            Paragraph thanksMsg = new Paragraph("Thanks for purchasing! Hope you visit again!");
+            doc.add(thanksMsg);
+
+            int ans = JOptionPane.showConfirmDialog(null, "Invoice saved to %s. Open now?".formatted(filePath));
+            if (ans == JOptionPane.YES_OPTION) {
+                OpenPdf.openByPath(filePath);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        doc.close();
     }//GEN-LAST:event_btnInvoiceActionPerformed
 
     /**
@@ -303,6 +372,7 @@ public class ViewOrderDetails extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAddress;
     private javax.swing.JLabel lblDiscount;

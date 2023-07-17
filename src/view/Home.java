@@ -83,7 +83,7 @@ public class Home extends javax.swing.JFrame {
                 btnMyOrdersActionPerformed(evt);
             }
         });
-        getContentPane().add(btnMyOrders, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 120, -1, -1));
+        getContentPane().add(btnMyOrders, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 110, -1, -1));
 
         btnViewMenu.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnViewMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/menu.png"))); // NOI18N
@@ -93,7 +93,7 @@ public class Home extends javax.swing.JFrame {
                 btnViewMenuActionPerformed(evt);
             }
         });
-        getContentPane().add(btnViewMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 120, -1, -1));
+        getContentPane().add(btnViewMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 110, -1, -1));
 
         btnChangeSecQuestion.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnChangeSecQuestion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/change Security Question.png"))); // NOI18N
@@ -176,7 +176,7 @@ public class Home extends javax.swing.JFrame {
         getContentPane().add(btnOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 690, -1, -1));
 
         btnVoucher.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnVoucher.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/category.png"))); // NOI18N
+        btnVoucher.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/voucher.png"))); // NOI18N
         btnVoucher.setText("Manage Voucher");
         btnVoucher.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -186,7 +186,7 @@ public class Home extends javax.swing.JFrame {
         getContentPane().add(btnVoucher, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 690, -1, -1));
 
         btnStaff.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        btnStaff.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/category.png"))); // NOI18N
+        btnStaff.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/staff.jpg"))); // NOI18N
         btnStaff.setText("Manage Staff");
         btnStaff.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

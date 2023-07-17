@@ -103,13 +103,14 @@ public class PlaceOrderView extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("PLACE ORDER");
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/place order.png"))); // NOI18N
+        jLabel1.setText("Place Order");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 245, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Item List");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 50, 120, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 50, 120, -1));
 
         tblItems.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         tblItems.setModel(new javax.swing.table.DefaultTableModel(
@@ -127,22 +128,22 @@ public class PlaceOrderView extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Total: ");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 460, 88, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 460, 88, -1));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Ship cost: ");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 500, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 500, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Discount:");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 540, 88, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 540, 88, -1));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Final cost:");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 590, 88, -1));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 590, 88, -1));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
@@ -287,37 +288,38 @@ public class PlaceOrderView extends javax.swing.JFrame {
         getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 560, 65, -1));
 
         btnPurchase.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnPurchase.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add to cart.png"))); // NOI18N
         btnPurchase.setText("Purchase");
         btnPurchase.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPurchaseActionPerformed(evt);
             }
         });
-        getContentPane().add(btnPurchase, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 640, 134, 62));
+        getContentPane().add(btnPurchase, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 640, 134, 40));
 
         lblTotal.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblTotal.setForeground(new java.awt.Color(255, 255, 255));
         lblTotal.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         lblTotal.setText("$0,000");
-        getContentPane().add(lblTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 460, 70, -1));
+        getContentPane().add(lblTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 460, 70, -1));
 
         lblShipCost.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblShipCost.setForeground(new java.awt.Color(255, 255, 255));
         lblShipCost.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         lblShipCost.setText("$0,000");
-        getContentPane().add(lblShipCost, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 500, 70, -1));
+        getContentPane().add(lblShipCost, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 500, 70, -1));
 
         lblDiscount.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblDiscount.setForeground(new java.awt.Color(255, 255, 255));
         lblDiscount.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         lblDiscount.setText("$0,000");
-        getContentPane().add(lblDiscount, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 540, 70, -1));
+        getContentPane().add(lblDiscount, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 540, 70, -1));
 
         lblFinalCost.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblFinalCost.setForeground(new java.awt.Color(255, 255, 255));
         lblFinalCost.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         lblFinalCost.setText("$0,000");
-        getContentPane().add(lblFinalCost, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 590, 70, -1));
+        getContentPane().add(lblFinalCost, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 590, 70, -1));
 
         txtNote.setColumns(18);
         txtNote.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N

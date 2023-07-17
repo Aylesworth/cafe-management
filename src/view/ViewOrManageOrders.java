@@ -73,6 +73,7 @@ public class ViewOrManageOrders extends javax.swing.JFrame {
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        tblOrders.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         tblOrders.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -104,10 +105,12 @@ public class ViewOrManageOrders extends javax.swing.JFrame {
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(126, 94, 1100, 390));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("To");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 40, -1, -1));
 
         lblStatus.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblStatus.setForeground(new java.awt.Color(255, 255, 255));
         lblStatus.setText("Change status");
         getContentPane().add(lblStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 600, -1, -1));
 
@@ -118,6 +121,7 @@ public class ViewOrManageOrders extends javax.swing.JFrame {
         getContentPane().add(cbxStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 600, 182, -1));
 
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save.png"))); // NOI18N
         btnUpdate.setText("Update");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,8 +131,10 @@ public class ViewOrManageOrders extends javax.swing.JFrame {
         getContentPane().add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 640, 144, 40));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/manage-order.png"))); // NOI18N
         jLabel3.setText("Manage Order");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(33, 14, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         dpTo.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -138,10 +144,12 @@ public class ViewOrManageOrders extends javax.swing.JFrame {
         getContentPane().add(dpTo, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 40, 200, -1));
 
         lblShipper.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblShipper.setForeground(new java.awt.Color(255, 255, 255));
         lblShipper.setText("Set shipper");
         getContentPane().add(lblShipper, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 560, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("From");
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 40, -1, -1));
 
@@ -161,6 +169,7 @@ public class ViewOrManageOrders extends javax.swing.JFrame {
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1310, 10, -1, -1));
 
         btnDetails.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnDetails.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/View Bills _ Order Placed Details.png"))); // NOI18N
         btnDetails.setText("View Details");
         btnDetails.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

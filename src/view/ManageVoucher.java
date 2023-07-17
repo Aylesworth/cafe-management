@@ -64,10 +64,8 @@ public class ManageVoucher extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1194, 719));
         setMinimumSize(new java.awt.Dimension(1194, 719));
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(1194, 719));
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
@@ -111,7 +109,7 @@ public class ManageVoucher extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/category.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/voucher.png"))); // NOI18N
         jLabel1.setText("Manage Voucher");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(16, 12, -1, -1));
 
@@ -158,8 +156,8 @@ public class ManageVoucher extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Add New Voucher");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 130, -1, -1));
+        jLabel5.setText("New Voucher");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, -1, -1));
 
         cbxRank.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         getContentPane().add(cbxRank, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 180, 170, -1));

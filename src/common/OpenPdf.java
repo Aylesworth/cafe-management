@@ -13,11 +13,11 @@ import javax.swing.JOptionPane;
  */
 public class OpenPdf {
 
-    public static void openById(int id) {
+    public static void openByPath(String path) {
         try {
-            if (new File("D:\\bill_no_" + id + ".pdf").exists()) {
+            if (new File(path).exists()) {
                 Process p = Runtime.getRuntime()
-                        .exec("rundll32 url.dll,FileProtocolHandler D:\\bill_no_" + id + ".pdf");
+                        .exec("rundll32 url.dll,FileProtocolHandler \"%s\"".formatted(path));
             } else {
                 JOptionPane.showMessageDialog(null, "File does not exist!");
             }

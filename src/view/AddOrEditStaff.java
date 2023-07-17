@@ -80,7 +80,7 @@ public class AddOrEditStaff extends javax.swing.JFrame {
         lblTitle.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblTitle.setForeground(new java.awt.Color(255, 255, 255));
         lblTitle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/new product.png"))); // NOI18N
-        lblTitle.setText("ADD NEW STAFF");
+        lblTitle.setText("New Staff");
         getContentPane().add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -155,7 +155,7 @@ public class AddOrEditStaff extends javax.swing.JFrame {
 
         btnAction.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnAction.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save.png"))); // NOI18N
-        btnAction.setText("SAVE");
+        btnAction.setText("Save");
         btnAction.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActionActionPerformed(evt);
@@ -202,7 +202,7 @@ public class AddOrEditStaff extends javax.swing.JFrame {
 
         btnAction1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnAction1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/clear.png"))); // NOI18N
-        btnAction1.setText("CLEAR");
+        btnAction1.setText("Clear");
         btnAction1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAction1ActionPerformed(evt);
@@ -226,7 +226,8 @@ public class AddOrEditStaff extends javax.swing.JFrame {
         List.of("Barista", "Server", "Chef", "Manager", "Counter Service", "Shipper").forEach(cbxPosition::addItem);
 
         if (staffId != -1) {
-            lblTitle.setText("EDIT STAFF");
+            lblTitle.setText("Edit Staff");
+            lblTitle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/view edit delete product.png")));
 
             Staff staff = staffDao.getById(staffId);
             txtName.setText(staff.getFullName());
