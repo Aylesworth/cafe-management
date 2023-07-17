@@ -68,6 +68,8 @@ public class VoucherDao {
                         WHERE v.Id IN 
                             (SELECT u.VoucherId FROM VoucherUsage u
                             WHERE u.UserId = ? AND u.OrderId IS NULL)
+                        AND ExpDate >= GETDATE() 
+                        ORDER BY ExpDate ASC
                        """;
         ResultSet rs = DbOperations.getData(query, new Object[]{userId});
         try {

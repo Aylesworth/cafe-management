@@ -229,7 +229,6 @@ public class SignUp extends javax.swing.JFrame {
         getContentPane().add(txtAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 470, 400, -1));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/first page background.PNG"))); // NOI18N
-        jLabel5.setText("jLabel5");
         jLabel5.setMaximumSize(new java.awt.Dimension(1366, 768));
         jLabel5.setMinimumSize(new java.awt.Dimension(1366, 768));
         jLabel5.setPreferredSize(new java.awt.Dimension(1366, 768));

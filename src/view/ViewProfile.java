@@ -219,7 +219,6 @@ public class ViewProfile extends javax.swing.JFrame {
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1310, 10, -1, -1));
 
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/full-page-background.PNG"))); // NOI18N
-        jLabel12.setText("jLabel12");
         getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -30, 1470, 830));
 
         pack();
@@ -319,7 +318,6 @@ public class ViewProfile extends javax.swing.JFrame {
                 && txtEmail.getText().matches(emailPattern)
                 && txtPhoneNumber.getText().matches(phoneNumberPattern)
                 && !txtAddress.getText().isEmpty()) {
-            System.out.println("A");
             btnSave.setEnabled(true);
         } else {
             btnSave.setEnabled(false);

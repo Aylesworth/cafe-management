@@ -179,7 +179,6 @@ public class ViewOrManageOrders extends javax.swing.JFrame {
         getContentPane().add(btnDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 500, 144, 40));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/full-page-background.PNG"))); // NOI18N
-        jLabel4.setText("jLabel4");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(-2, -52, 1420, 870));
 
         pack();

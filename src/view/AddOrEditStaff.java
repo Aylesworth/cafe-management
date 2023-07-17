@@ -211,7 +211,6 @@ public class AddOrEditStaff extends javax.swing.JFrame {
         getContentPane().add(btnAction1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 480, 100, 30));
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/full-page-background.PNG"))); // NOI18N
-        jLabel9.setText("jLabel9");
         getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -90, 1480, 810));
 
         pack();

@@ -197,7 +197,6 @@ public class NewForgotPasswordPage extends javax.swing.JFrame {
         getContentPane().add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 282, 401, -1));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/first page background.PNG"))); // NOI18N
-        jLabel7.setText("jLabel7");
         jLabel7.setMaximumSize(new java.awt.Dimension(1366, 768));
         jLabel7.setMinimumSize(new java.awt.Dimension(1366, 768));
         jLabel7.setPreferredSize(new java.awt.Dimension(1366, 768));

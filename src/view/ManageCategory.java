@@ -144,7 +144,6 @@ public class ManageCategory extends javax.swing.JFrame {
         getContentPane().add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(199, 210, -1, -1));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/small-page-background.png"))); // NOI18N
-        jLabel5.setText("jLabel5");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, -1));
 
         pack();

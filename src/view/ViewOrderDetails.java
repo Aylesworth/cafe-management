@@ -221,7 +221,6 @@ public class ViewOrderDetails extends javax.swing.JFrame {
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/full-page-background.PNG"))); // NOI18N
-        jLabel19.setText("jLabel19");
         getContentPane().add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(-5, -22, 1450, 810));
 
         pack();

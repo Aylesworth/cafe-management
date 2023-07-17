@@ -1,6 +1,5 @@
 package main;
 
-import dao.UserDao;
 import view.Login;
 
 public class Main {

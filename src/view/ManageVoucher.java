@@ -241,7 +241,6 @@ public class ManageVoucher extends javax.swing.JFrame {
         getContentPane().add(chbxPercentageOnly, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 270, -1, 30));
 
         jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/full-page-background.PNG"))); // NOI18N
-        jLabel13.setText("jLabel13");
         jLabel13.setMaximumSize(new java.awt.Dimension(1021, 619));
         jLabel13.setMinimumSize(new java.awt.Dimension(1021, 619));
         jLabel13.setPreferredSize(new java.awt.Dimension(1021, 619));
