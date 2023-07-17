@@ -16,7 +16,7 @@ import model.User;
 public class Login extends javax.swing.JFrame {
 
     private UserDao userdao = new UserDao();
-    public String emailPattern = " ^[a-zA-Z0-9]+[@]+[a-zA-Z0-9]+[.]+[a-zA-Z0-9]+$";
+    public String emailPattern = "^[a-zA-Z0-9]+[@]+[a-zA-Z0-9]+[.]+[a-zA-Z0-9]+$";
 
     public Login() {
         initComponents();
@@ -35,8 +35,7 @@ public class Login extends javax.swing.JFrame {
         if (email.matches(emailPattern) && !password.equals("")) {
             btnLogin.setEnabled(true);
         } else {
-            btnLogin.setEnabled(true);
-
+            btnLogin.setEnabled(false);
         }
 
     }

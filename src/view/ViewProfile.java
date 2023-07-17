@@ -181,15 +181,17 @@ public class ViewProfile extends javax.swing.JFrame {
         getContentPane().add(dpBirthDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 420, 230, 30));
 
         btnUpdate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/view edit delete product.png"))); // NOI18N
         btnUpdate.setText("Update");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateActionPerformed(evt);
             }
         });
-        getContentPane().add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 550, 110, 40));
+        getContentPane().add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 550, 120, 40));
 
         btnCancel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/close.png"))); // NOI18N
         btnCancel.setText("Cancel");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -199,13 +201,14 @@ public class ViewProfile extends javax.swing.JFrame {
         getContentPane().add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 550, 110, 40));
 
         btnSave.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save.png"))); // NOI18N
         btnSave.setText("Save");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 550, 110, 40));
+        getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 550, 110, 40));
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/close.png"))); // NOI18N
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -249,7 +252,7 @@ public class ViewProfile extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-        List.of("Male", "Femail").forEach(cbxSex::addItem);
+        List.of("Male", "Female").forEach(cbxSex::addItem);
         loadInfo();
     }//GEN-LAST:event_formComponentShown
 
@@ -354,7 +357,7 @@ public class ViewProfile extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ViewProfile(1).setVisible(true);
+                new ViewProfile(2).setVisible(true);
             }
         });
     }

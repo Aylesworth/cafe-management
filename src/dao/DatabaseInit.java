@@ -314,8 +314,8 @@ public class DatabaseInit {
                         INSERT INTO Category (Name) VALUES ('None');
                 UPDATE Product SET CategoryId = (SELECT Id FROM Category WHERE Name = 'None')
                 WHERE CategoryId = (SELECT Id FROM deleted);
-                DELETE FROM Category WHERE Id = (SELECT Id FROM deleted);
             END
+            DELETE FROM Category WHERE Id = (SELECT Id FROM deleted);
             """;
     
     private static final String incUserPointTrigger = 

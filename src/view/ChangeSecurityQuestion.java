@@ -12,9 +12,9 @@ import model.User;
  * @author Administrator
  */
 public class ChangeSecurityQuestion extends javax.swing.JFrame {
+
     private String userEmail;
     private UserDao userDao = new UserDao();
-    
 
     /**
      * Creates new form ChangeSecurityQuestion
@@ -22,22 +22,24 @@ public class ChangeSecurityQuestion extends javax.swing.JFrame {
     public ChangeSecurityQuestion() {
         initComponents();
     }
-    
+
     public ChangeSecurityQuestion(String email) {
         initComponents();
         userEmail = email;
         txtOldSQ.setEditable(false);
         btnUpdate.setEnabled(false);
     }
-    
-    public void validateFields(){
+
+    public void validateFields() {
         String password = txtPassword.getText();
         String securityQuestion = txtNewSQ.getText();
         String answer = txtNewAns.getText();
-        if(!password.equals("") && !securityQuestion.equals("") && !answer.equals("")){
+        System.out.println(!password.equals(""));
+        System.out.println(!securityQuestion.equals(""));
+        System.out.println(!answer.equals(""));
+        if (!password.equals("") && !securityQuestion.equals("") && !answer.equals("")) {
             btnUpdate.setEnabled(true);
-        }
-        else {
+        } else {
             btnUpdate.setEnabled(false);
         }
     }
@@ -129,6 +131,12 @@ public class ChangeSecurityQuestion extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Password");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 210, -1, -1));
+
+        txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPasswordKeyReleased(evt);
+            }
+        });
         getContentPane().add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(283, 206, 286, -1));
 
         btnUpdate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -182,7 +190,6 @@ public class ChangeSecurityQuestion extends javax.swing.JFrame {
         String answer = txtNewAns.getText();
         userDao.changeSecurityQuestion(userEmail, password, securityQuestion, answer);
         setVisible(false);
-        new ChangeSecurityQuestion(userEmail).setVisible(true);
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -193,6 +200,10 @@ public class ChangeSecurityQuestion extends javax.swing.JFrame {
         setVisible(false);
         new ChangeSecurityQuestion(userEmail).setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void txtPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyReleased
+        validateFields();
+    }//GEN-LAST:event_txtPasswordKeyReleased
 
     /**
      * @param args the command line arguments
@@ -224,7 +235,7 @@ public class ChangeSecurityQuestion extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ChangeSecurityQuestion().setVisible(true);
+                new ChangeSecurityQuestion("admin@email.com").setVisible(true);
             }
         });
     }

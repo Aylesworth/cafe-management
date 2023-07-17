@@ -90,7 +90,7 @@ public class UserDao {
 
         DbOperations.updateData(query, args, "Registered succcessfully! Please wait for admin approval.");
     }
-    
+
     public void update(User user) {
         String query = "UPDATE [User] SET FullName = ?, Sex = ?, BirthDate = ?, Email = ?, PhoneNumber = ?, Address = ? WHERE Id = ?";
         Object[] args = {
@@ -102,9 +102,9 @@ public class UserDao {
             user.getAddress(),
             user.getId()
         };
-        
+
         DbOperations.updateData(query, args, "User profile updated successfully!");
-    } 
+    }
 
     public User login(String email, String password) {
         User user = null;
@@ -198,7 +198,7 @@ public class UserDao {
                 query = "UPDATE [User] SET SecurityQuestion = ?, Answer = ? WHERE Email = ?";
                 args = new Object[]{securityQuestion, answer, email};
 
-                DbOperations.updateData(query, "Security question changed successfully!");
+                DbOperations.updateData(query, args, "Security question changed successfully!");
             } else {
                 JOptionPane.showMessageDialog(null, "Password is wrong!");
             }
