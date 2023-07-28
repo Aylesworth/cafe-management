@@ -13,4 +13,4 @@ Ngoài ra role admin đương nhiên cũng có đầy đủ các chức năng nh
 2. Quản lí giỏ hàng,chuyển từ giỏ hàng sang đơn hàng để thanh toán  
 3.Tích điểm thưởng,sử dụng voucher để thanh toán,chọn các phương thức thanh toán  
 4.Xem chi tiết đơn hàng,in ra hóa đơn  
-### 2,Demo: Link Slide thuyết trình về sản phẩm 
+### 2,Demo: Link Slide thuyết trình về sản phẩm: https://drive.google.com/drive/folders/1draTXOGYN1pW6AGaaRj84T5GiiKNYy5x?usp=sharing 
